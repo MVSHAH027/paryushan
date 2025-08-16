@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paryushan Quiz Tutorial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Vadodara:wght@400;500;600;700&family=Baloo+Bhai+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .gujarati-font { font-family: 'Hind Vadodara', sans-serif; }
+        .hindi-font { font-family: 'Baloo Bhai 2', sans-serif; }
+        .english-font { font-family: 'Inter', sans-serif; }
+
+        .quiz-container {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .question-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .question-card:hover {
+            transform: translateY(-5px);
+        }
+        .option-btn {
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .option-btn:hover {
+            transform: scale(1.03);
+        }
+        .option-btn.selected {
+            background-color: #60a5fa; /* blue-400 */
+            color: white;
+            border-color: #3b82f6; /* blue-600 */
+        }
+        .option-btn.correct {
+            background-color: #4ade80; /* green-400 */
+            color: white;
+            animation: pulse-correct 0.5s;
+        }
+        .option-btn.incorrect {
+            background-color: #f87171; /* red-400 */
+            color: white;
+            animation: shake-incorrect 0.5s;
+        }
+        @keyframes pulse-correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake-incorrect {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .feedback {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0;
+        }
+        .feedback.show {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .draggable {
+            cursor: grab;
+        }
+        .drop-zone {
+            min-height: 50px;
+            border: 2px dashed #cbd5e1;
+        }
+        .drop-zone.over {
+            background-color: #e0f2fe;
+        }
+        .match-item.selected {
+            background-color: #93c5fd;
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="max-w-2xl mx-auto p-4 md:p-6">
+        <!-- Header and Language Selector -->
+        <header class="text-center mb-6">
+            <h1 id="main-title" class="text-3xl md:text-4xl font-bold text-teal-600"></h1>
+            <p id="sub-title" class="text-gray-600 mt-2"></p>
+            <div id="language-selector" class="flex justify-center space-x-2 mt-4">
+                <button onclick="changeLanguage('gu')" class="lang-btn gujarati-font bg-orange-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition">ગુજરાતી</button>
+                <button onclick="changeLanguage('hi')" class="lang-btn hindi-font bg-blue-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-blue-600 transition">हिन्दी</button>
+                <button onclick="changeLanguage('en')" class="lang-btn english-font bg-green-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-green-600 transition">English</button>
+            </div>
+        </header>
+
+        <!-- Quiz Container -->
+        <main id="quiz-container" class="quiz-container space-y-8">
+            <!-- Quiz sections will be dynamically inserted here -->
+        </main>
+
+        <!-- Final Score Screen -->
+        <div id="score-screen" class="hidden text-center p-8 bg-white rounded-2xl shadow-xl">
+            <h2 id="score-title" class="text-3xl font-bold text-gray-800 mb-4"></h2>
+            <p id="score-text" class="text-5xl font-bold text-teal-600 mb-6"></p>
+            <p id="score-message" class="text-lg text-gray-600 mb-8"></p>
+            <button id="restart-btn" onclick="restartQuiz()" class="bg-teal-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-teal-600 transition shadow-lg">
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        const quizData = {
+            gu: {
+                title: "પર્વાધિરાજ પર્યુષણ ક્વિઝ",
+                subtitle: "તમારા જ્ઞાનને ચકાસો અને આઠ સોપાનો વિશે વધુ જાણો",
+                scoreTitle: "ક્વિઝ પૂર્ણ!",
+                scoreMessage: "તમે પર્યુષણના સિદ્ધાંતોને ખૂબ સારી રીતે સમજ્યા છો. ઉત્તમ કાર્ય!",
+                restartBtn: "ફરીથી રમો",
+                quizSections: [
+                    {
+                        format: "mcq",
+                        title: "ફોર્મેટ ૧: બહુવિકલ્પ પ્રશ્નો",
+                        questions: [
+                            { question: "પર્યુષણનો શાબ્દિક અર્થ શું થાય છે?", options: ["આત્માની સમીપ વસવું", "શરીરનું પોષણ કરવું", "ભૌતિક સમૃદ્ધિ મેળવવી", "ઉપવાસ કરવો"], answer: 0, explanation: "પર્યુષણનો શાબ્દિક અર્થ 'આત્માની સમીપ વસવું' છે, જે આત્મ-ચિંતન અને શુદ્ધિ પર ભાર મૂકે છે." },
+                            { question: "પર્યુષણનું આઠમું સોપાન શું શીખવે છે?", options: ["માત્ર આત્મકલ્યાણ", "માનવ અને પ્રાણીમાત્રની સેવા", "સંપત્તિનો સંગ્રહ", "ક્રોધ કરવો"], answer: 1, explanation: "આઠમું સોપાન 'પજુસણ' એટલે કે મન, વચન અને કર્મથી માનવ અને પ્રાણીમાત્રની સેવા કરવી." },
+                            { question: "જૈન ધર્મ મુજબ, ક્ષમા કોની પાસે માંગવી જોઈએ?", options: ["ગુરુ પાસે", "મંદિરમાં ભગવાન પાસે", "જેને દુઃખ પહોંચાડ્યું હોય તેની પાસે", "કોઈની પાસે નહીં"], answer: 2, explanation: "જૈન ધર્મની વિશિષ્ટતા એ છે કે જેને દુઃખ પહોંચાડ્યું હોય તેની સમક્ષ જઈને ક્ષમા માંગવી જોઈએ." },
+                            { question: "અધ્યાત્મના માર્ગે સૌથી મોટો અવરોધ કયો છે?", options: ["પરિશ્રમ", "જાગૃતિ", "પ્રમાદ (આળસ)", "દાન"], answer: 2, explanation: "'પ્રમાદ', એટલે કે આળસ કે બેદરકારી, અધ્યાત્મના માર્ગ પર સૌથી મોટો અવરોધ માનવામાં આવે છે." },
+                            { question: "રેવતી શ્રાવિકાએ ભગવાન મહાવીરને શું વહોરાવ્યું હતું?", options: ["ખીર", "ફળો", "બીજોરાપાક", "વસ્ત્રો"], answer: 2, explanation: "રેવતી શ્રાવિકાએ અત્યંત શ્રદ્ધાભાવથી ભગવાન મહાવીરને બીજોરાપાક વહોરાવ્યો હતો, જેનાથી તેઓ રોગમુક્ત થયા." },
+                            { question: "આત્મોપમ્યની ભાવનાનો અર્થ શું છે?", options: ["પોતાને શ્રેષ્ઠ માનવું", "બધા જીવોને પોતાના જેવા સમજવા", "બીજાથી ઈર્ષ્યા કરવી", "માત્ર મનુષ્યો પ્રત્યે દયા"], answer: 1, explanation: "આત્મોપમ્યની ભાવના એટલે 'જેવો મારો જીવ, એવો જ અન્યનો જીવ' એમ વિચારીને કોઈને પણ દુઃખ ન પહોંચાડવું." },
+                            { question: "નમસ્કાર મહામંત્ર કોને નમસ્કાર કરે છે?", options: ["કોઈ ચોક્કસ વ્યક્તિને", "દેવી-દેવતાઓને", "અરિહંત (જેમણે આંતર શત્રુઓને જીત્યા છે)", "પ્રકૃતિને"], answer: 2, explanation: "નમસ્કાર મહામંત્ર કોઈ વ્યક્તિને નહીં, પણ 'અરિહંત' જેવા ગુણોને નમસ્કાર કરે છે, જેમણે ક્રોધ, લોભ જેવા આંતરિક શત્રુઓ પર વિજય મેળવ્યો છે." },
+                            { question: "ભગવાન મહાવીરના મતે માનવી શા માટે પરાજિત છે?", options: ["બહારનાં પરિબળોને કારણે", "ભાગ્યને કારણે", "પોતાની તૃષ્ણા, લાલસા અને મિથ્યાત્વને કારણે", "બીજા લોકોના કારણે"], answer: 2, explanation: "ભગવાન મહાવીરે જોયું કે માનવી બહારનાં પરિબળોને કારણે નહીં, પરંતુ પોતાની તૃષ્ણા, લાલસા અને મિથ્યાત્વ જેવા આંતરિક કારણોસર જ હારેલો છે." },
+                        ]
+                    },
+                    {
+                        format: "true_false",
+                        title: "ફોર્મેટ ૨: ખરું કે ખોટું",
+                        questions: [
+                            { question: "પર્યુષણ પર્વ મુખ્યત્વે શરીરનું પોષણ કરવા માટે છે.", answer: false, explanation: "ખોટું. લૌકિક પર્વો શરીરનું પોષણ કરે છે, જ્યારે પર્યુષણ પર્વ મનનું પોષણ કરે છે અને આત્મશુદ્ધિ પર ધ્યાન કેન્દ્રિત કરે છે." },
+                            { question: "પર્યુષણનું પ્રથમ સોપાન જીવનની પરિસ્થિતિઓને સાક્ષીભાવે જોવાનું શીખવે છે.", answer: true, explanation: "ખરું. પ્રથમ સોપાન શીખવે છે કે જીવનમાં આવતી અનુકૂળતા અને પ્રતિકૂળતાને આપણા કર્મોનું ફળ સમજીને સાક્ષીભાવે જોવી જોઈએ." },
+                            { question: "ક્રોધ, લોભ અને માયા જેવા કષાયો આત્મવિકાસમાં મદદરૂપ છે.", answer: false, explanation: "ખોટું. કામ, ક્રોધ, લોભ અને માયા જેવા કષાયો જીવનમાં નકારાત્મકતા ફેલાવે છે અને આત્મવિકાસમાં અવરોધરૂપ બને છે." },
+                            { question: "સેવા કરવા માટે પૈસા હોવા અનિવાર્ય છે.", answer: false, explanation: "ખોટું. સેવાનો આધાર પૈસા નથી, પરંતુ હૃદય અને સેવા કરવાની ઈચ્છા છે." },
+                            { question: "પર્યુષણ પર્વ ત્યાગ અને સત્વનું લોકોત્તર પર્વ છે.", answer: true, explanation: "ખરું. પર્યુષણ એ કોઈ લાભ કે ભોગનું પર્વ નથી, પરંતુ ત્યાગ, સંયમ અને આત્મશુદ્ધિનું પર્વ છે." },
+                            { question: "આપણી સંવેદના માત્ર આપણા પરિવાર પૂરતી સીમિત હોવી જોઈએ.", answer: false, explanation: "ખોટું. સાતમું સોપાન શીખવે છે કે આપણી સંવેદના એટલી વ્યાપક બને કે આખું વિશ્વ આપણને કુટુંબ જેવું લાગે." },
+                            { question: "રેવતી શ્રાવિકા આવતી ચોવીસીમાં તીર્થંકર બનશે.", answer: true, explanation: "ખરું. તેમના વિશિષ્ટ દાનના ફળસ્વરૂપે, રેવતી શ્રાવિકા આવતી ચોવીસીમાં 'સમાધિ' નામના સત્તરમા તીર્થંકર બનશે." },
+                            { question: "પર્યુષણ આપણને બીજાના દોષો પર ધ્યાન કેન્દ્રિત કરવાનું શીખવે છે.", answer: false, explanation: "ખોટું. આઠમું સોપાન દર્પણ જેવું છે, જે શીખવે છે કે બીજાના દોષો નહીં, પરંતુ તેમના સદ્ગુણો અને ઉપકારોનું જીવનમાં પરાવર્તન કરવું જોઈએ." },
+                        ]
+                    },
+                    {
+                        format: "fill_blank",
+                        title: "ફોર્મેટ ૩: ખાલી જગ્યા પૂરો",
+                        questions: [
+                            { question: "પર્યુષણ એ માનવીને ભૌતિક સમૃદ્ધિની _____માંથી જગાડે છે.", answer: "મૂર્છા", explanation: "પર્યુષણ આપણને ભૌતિક વસ્તુઓની મોહમાયા કે મૂર્છામાંથી જગાડીને આત્મજાગૃતિ તરફ દોરે છે." },
+                            { question: "બીજા સોપાન મુજબ, કષાયોને ઓળખવા માટે _____ કરવું જરૂરી છે.", answer: "આંતરદર્શન", explanation: "બીજું સોપાન આપણને પોતાના ભીતરમાં ડોકિયું કરીને (આંતરદર્શન) ક્રોધ, લોભ જેવી નકારાત્મક વૃત્તિઓને ઓળખવાનું શીખવે છે." },
+                            { question: "જૈન ધર્મની સૌથી મહત્ત્વની વાત _____ છે.", answer: "અપ્રમાદ", explanation: "અપ્રમાદ, એટલે કે સતત જાગૃતિ અને પ્રયત્ન, એ જૈન ધર્મનો મુખ્ય સિદ્ધાંત છે જે આપણને અધમ આચરણથી બચાવે છે." },
+                            { question: "ચિત્તમાં મૈત્રી, કરુણા, મુદિતા અને _____ એ ચાર ભાવો ધારણ કરવાના છે.", answer: "ઉપેક્ષા", explanation: "આ ચાર ભાવો (મૈત્રી, કરુણા, મુદિતા, ઉપેક્ષા) ચિત્તને શુદ્ધ અને સંતુલિત રાખવામાં મદદ કરે છે." },
+                            { question: "ભગવાન મહાવીરે કહ્યું છે કે આપણી કાયામાં _____ વસેલો છે.", answer: "પરમાત્મા", explanation: "ભગવાન મહાવીરનો સંદેશ છે કે દરેક જીવની કાયામાં પરમાત્માનો અંશ રહેલો છે, જેને આપણે શોધવાનો છે." },
+                            { question: "જીવનમાં આવતી અનુકૂળતા અને પ્રતિકૂળતા એ આપણા શુભ-અશુભ _____નું ફળ છે.", answer: "કર્મો", explanation: "પ્રથમ સોપાન અનુસાર, આપણને મળતા સુખ-દુઃખ આપણા પોતાના જ પૂર્વ કર્મોનું પરિણામ છે." },
+                            { question: "સેવા જીવનમાં ઉમેરાય તો તે '_____ લાઈફ' બને છે.", answer: "ડિવાઇન", explanation: "જ્યારે જીવનમાં નિઃસ્વાર્થ સેવાનો ભાવ ઉમેરાય છે, ત્યારે તે સામાન્ય જીવનમાંથી દિવ્ય (ડિવાઇન) જીવન બની જાય છે." },
+                            { question: "પર્યુષણ એ વિભાવ દશામાંથી _____ દશા તરફ ગતિ કરવાનું પર્વ છે.", answer: "સ્વભાવ", explanation: "પર્યુષણ આપણને આપણા મૂળ સ્વભાવ, એટલે કે આત્માના શુદ્ધ સ્વરૂપ (સ્વભાવ દશા) તરફ પાછા વાળે છે." },
+                        ]
+                    },
+                    {
+                        format: "match",
+                        title: "ફોર્મેટ ૪: યોગ્ય જોડકાં જોડો",
+                        instructions: "ડાબી બાજુના સોપાનના મુખ્ય વિચારને જમણી બાજુના તેના વર્ણન સાથે જોડો.",
+                        pairs: [
+                            { item: "પ્રથમ સોપાન", match: "સાક્ષીભાવ" },
+                            { item: "દ્વિતીય સોપાન", match: "આંતરદર્શન" },
+                            { item: "પંચમ સોપાન", match: "અપ્રમાદ" },
+                            { item: "ષષ્ઠ સોપાન", match: "આત્મોપમ્ય" },
+                            { item: "સપ્તમ સોપાન", match: "વ્યાપકતા" },
+                            { item: "અષ્ટમ સોપાન", match: "સેવા" },
+                            { item: "તૃતીય/ચતુર્થ સોપાન", match: "ક્ષમાયાચના" },
+                            { item: "ભગવાન મહાવીરનો સંદેશ", match: "સંયમ અને અહિંસા" }
+                        ]
+                    },
+                    {
+                        format: "order",
+                        title: "ફોર્મેટ ૫: સાચા ક્રમમાં ગોઠવો",
+                        instructions: "પર્યુષણના આઠ સોપાનોના મુખ્ય વિચારોને તેમના સાચા ક્રમમાં ગોઠવો. (ઉપરથી નીચે)",
+                        items: [
+                            "સાક્ષીભાવ - જીવનદ્રષ્ટિનું પરિવર્તન",
+                            "આંતરદર્શન - કષાયોથી મુક્તિ",
+                            "પર્યુપક્ષમણા - સાચી ક્ષમાયાચના",
+                            "પરિશ્રમણા - અપ્રમાદ અને સતત પુરુષાર્થ",
+                            "આત્મોપમ્યની ભાવના - સર્વજીવ કલ્યાણ",
+                            "સંવેદનાની વ્યાપકતા - વિશ્વ એક કુટુંબ",
+                            "સેવા અને સમાજ કલ્યાણ",
+                            "ઉપકારો અને સદ્ગુણોનું પરાવર્તન"
+                        ]
+                    }
+                ]
+            },
+            hi: {
+                title: "पर्वाधिराज पर्युषण प्रश्नोत्तरी",
+                subtitle: "अपने ज्ञान का परीक्षण करें और आठ सोपानों के बारे में अधिक जानें",
+                scoreTitle: "प्रश्नोत्तरी पूर्ण!",
+                scoreMessage: "आपने पर्युषण के सिद्धांतों को बहुत अच्छी तरह समझा है। उत्कृष्ट कार्य!",
+                restartBtn: "फिर से खेलें",
+                quizSections: [
+                    {
+                        format: "mcq",
+                        title: "प्रारूप १: बहुविकल्पीय प्रश्न",
+                        questions: [
+                            { question: "पर्युषण का शाब्दिक अर्थ क्या है?", options: ["आत्मा के समीप बसना", "शरीर का पोषण करना", "भौतिक समृद्धि प्राप्त करना", "उपवास करना"], answer: 0, explanation: "पर्युषण का शाब्दिक अर्थ 'आत्मा के समीप बसना' है, जो आत्म-चिंतन और शुद्धि पर जोर देता है।" },
+                            { question: "पर्युषण का आठवां सोपान क्या सिखाता है?", options: ["केवल आत्म-कल्याण", "मानव और प्राणिमात्र की सेवा", "धन का संग्रह", "क्रोध करना"], answer: 1, explanation: "आठवां सोपान 'पजुसन' अर्थात् मन, वचन और कर्म से मानव और प्राणिमात्र की सेवा करना सिखाता है।" },
+                            { question: "जैन धर्म के अनुसार, क्षमा किससे मांगनी चाहिए?", options: ["गुरु से", "मंदिर में भगवान से", "जिसे दुःख पहुँचाया हो उससे", "किसी से नहीं"], answer: 2, explanation: "जैन धर्म की विशेषता यह है कि जिसे दुःख पहुँचाया हो, उसके समक्ष जाकर क्षमा मांगनी चाहिए।" },
+                            { question: "अध्यात्म के मार्ग पर सबसे बड़ी बाधा क्या है?", options: ["परिश्रम", "जागरूकता", "प्रमाद (आलस्य)", "दान"], answer: 2, explanation: "'प्रमाद', यानी आलस्य या लापरवाही, को अध्यात्म के मार्ग पर सबसे बड़ी बाधा माना जाता है।" },
+                            { question: "रेवती श्राविका ने भगवान महावीर को क्या अर्पित किया था?", options: ["खीर", "फल", "बिजोरापाक", "वस्त्र"], answer: 2, explanation: "रेवती श्राविका ने अत्यंत श्रद्धाभाव से भगवान महावीर को बिजोरापाक अर्पित किया था, जिससे वे रोगमुक्त हुए।" },
+                            { question: "आत्मौपम्य की भावना का क्या अर्थ है?", options: ["स्वयं को सर्वश्रेष्ठ मानना", "सभी जीवों को अपने समान समझना", "दूसरों से ईर्ष्या करना", "केवल मनुष्यों पर दया करना"], answer: 1, explanation: "आत्मौपम्य की भावना का अर्थ है 'जैसा मेरा जीव, वैसा ही अन्य का जीव' सोचकर किसी को भी दुःख न पहुँचाना।" },
+                            { question: "नमस्कार महामंत्र किसे नमस्कार करता है?", options: ["किसी विशिष्ट व्यक्ति को", "देवी-देवताओं को", "अरिहंत (जिन्होंने आंतरिक शत्रुओं को जीत लिया है)", "प्रकृति को"], answer: 2, explanation: "नमस्कार महामंत्र किसी व्यक्ति को नहीं, बल्कि 'अरिहंत' जैसे गुणों को नमस्कार करता है, जिन्होंने क्रोध, लोभ जैसे आंतरिक शत्रुओं पर विजय प्राप्त की है।" },
+                            { question: "भगवान महावीर के अनुसार मनुष्य क्यों पराजित है?", options: ["बाहरी कारकों के कारण", "भाग्य के कारण", "अपनी तृष्णा, लालसा और मिथ्यात्व के कारण", "दूसरे लोगों के कारण"], answer: 2, explanation: "भगवान महावीर ने देखा कि मनुष्य बाहरी कारकों के कारण नहीं, बल्कि अपनी तृष्णा, लालसा और मिथ्यात्व जैसे आंतरिक कारणों से ही हारा हुआ है।" },
+                        ]
+                    },
+                    {
+                        format: "true_false",
+                        title: "प्रारूप २: सही या गलत",
+                        questions: [
+                            { question: "पर्युषण पर्व मुख्य रूप से शरीर का पोषण करने के लिए है।", answer: false, explanation: "गलत। लौકिक पर्व शरीर का पोषण करते हैं, जबकि पर्युषण पर्व मन का पोषण करता है और आत्मशुद्धि पर ध्यान केंद्रित करता है।" },
+                            { question: "पर्युषण का पहला सोपान जीवन की परिस्थितियों को साक्षी भाव से देखना सिखाता है।", answer: true, explanation: "सही। पहला सोपान सिखाता है कि जीवन में आने वाली अनुकूलता और प्रतिकूलता को अपने कर्मों का फल समझकर साक्षी भाव से देखना चाहिए।" },
+                            { question: "क्रोध, लोभ और माया जैसे कषाय आत्म-विकास में सहायक होते हैं।", answer: false, explanation: "गलत। काम, क्रोध, लोभ और माया जैसे कषाय जीवन में नकारात्मकता फैलाते हैं और आत्म-विकास में बाधक बनते हैं।" },
+                            { question: "सेवा करने के लिए धन होना अनिवार्य है।", answer: false, explanation: "गलत। सेवा का आधार धन नहीं, बल्कि हृदय और सेवा करने की इच्छा है।" },
+                            { question: "पर्युषण पर्व त्याग और सत्व का लोकोत्तर पर्व है।", answer: true, explanation: "सही। पर्युषण कोई लाभ या भोग का पर्व नहीं है, बल्कि त्याग, संयम और आत्मशुद्धि का पर्व है।" },
+                            { question: "हमारी संवेदना केवल हमारे परिवार तक ही सीमित होनी चाहिए।", answer: false, explanation: "गलत। सातवां सोपान सिखाता है कि हमारी संवेदना इतनी व्यापक हो कि सारा विश्व हमें एक परिवार जैसा लगे।" },
+                            { question: "रेवती श्राविका अगली चौबीसी में तीर्थंकर बनेंगी।", answer: true, explanation: "सही। उनके विशिष्ट दान के परिणामस्वरूप, रेवती श्राविका अगली चौबीसी में 'समाधि' नामक सत्रहवें तीर्थंकर बनेंगी।" },
+                            { question: "पर्युषण हमें दूसरों के दोषों पर ध्यान केंद्रित करना सिखाता है।", answer: false, explanation: "गलत। आठवां सोपान दर्पण जैसा है, जो सिखाता है कि दूसरों के दोषों को नहीं, बल्कि उनके सद्गुणों और उपकारों को जीवन में प्रतिबिंबित करना चाहिए।" },
+                        ]
+                    },
+                    {
+                        format: "fill_blank",
+                        title: "प्रारूप ३: रिक्त स्थान भरें",
+                        questions: [
+                            { question: "पर्युषण मनुष्य को भौतिक समृद्धि की _____ से जगाता है।", answer: "मूर्छा", explanation: "पर्युषण हमें भौतिक वस्तुओं के मोह या मूर्छा से जगाकर आत्म-जागरूकता की ओर ले जाता है।" },
+                            { question: "दूसरे सोपान के अनुसार, कषायों को पहचानने के लिए _____ करना आवश्यक है।", answer: "अंतर्दर्शन", explanation: "दूसरा सोपान हमें अपने भीतर झाँककर (अंतर्दर्शन) क्रोध, लोभ जैसी नकारात्मक प्रवृत्तियों को पहचानने की शिक्षा देता है।" },
+                            { question: "जैन धर्म का सबसे महत्वपूर्ण सिद्धांत _____ है।", answer: "अप्रमाद", explanation: "अप्रमाद, यानी निरंतर जागरूकता और प्रयास, जैन धर्म का एक प्रमुख सिद्धांत है जो हमें बुरे आचरण से बचाता है।" },
+                            { question: "चित्त में मैत्री, करुणा, मुदिता और _____ ये चार भाव धारण करने हैं।", answer: "उपेक्षा", explanation: "ये चार भाव (मैत्री, करुणा, मुदिता, उपेक्षा) चित्त को शुद्ध और संतुलित रखने में मदद करते हैं।" },
+                            { question: "भगवान महावीर ने कहा है कि हमारी काया में _____ बसा हुआ है।", answer: "परमात्मा", explanation: "भगवान महावीर का संदेश है कि प्रत्येक जीव की काया में परमात्मा का अंश है, जिसे हमें खोजना है।" },
+                            { question: "जीवन में आने वाली अनुकूलता और प्रतिकूलता हमारे शुभ-अशुभ _____ का फल है।", answer: "कर्मों", explanation: "पहले सोपान के अनुसार, हमें मिलने वाले सुख-दुःख हमारे अपने ही पूर्व कर्मों का परिणाम हैं।" },
+                            { question: "सेवा जीवन में जुड़ जाए तो वह '_____ लाइफ' बन जाती है।", answer: "डिवाइन", explanation: "जब जीवन में निस्वार्थ सेवा का भाव जुड़ जाता है, तो वह सामान्य जीवन से दिव्य (डिवाइन) जीवन बन जाता है।" },
+                            { question: "पर्युषण विभाव दशा से _____ दशा की ओर गति करने का पर्व है।", answer: "स्वभाव", explanation: "पर्युषण हमें हमारे मूल स्वभाव, यानी आत्मा के शुद्ध स्वरूप (स्वभाव दशा) की ओर वापस ले जाता है।" },
+                        ]
+                    },
+                    {
+                        format: "match",
+                        title: "प्रारूप ४: सही जोड़ी बनाएं",
+                        instructions: "बाईं ओर के सोपान के मुख्य विचार को दाईं ओर उसके वर्णन से मिलाएं।",
+                        pairs: [
+                            { item: "प्रथम सोपान", match: "साक्षी भाव" },
+                            { item: "द्वितीय सोपान", match: "अंतर्दर्शन" },
+                            { item: "पंचम सोपान", match: "अप्रमाद" },
+                            { item: "षष्ठ सोपान", match: "आत्मौपम्य" },
+                            { item: "सप्तम सोपान", match: "व्यापकता" },
+                            { item: "अष्टम सोपान", match: "सेवा" },
+                            { item: "तृतीय/चतुर्थ सोपान", match: "क्षमायाचना" },
+                            { item: "भगवान महावीर का संदेश", match: "संयम और अहिंसा" }
+                        ]
+                    },
+                    {
+                        format: "order",
+                        title: "प्रारूप ५: सही क्रम में व्यवस्थित करें",
+                        instructions: "पर्युषण के आठ सोपानों के मुख्य विचारों को उनके सही क्रम में व्यवस्थित करें। (ऊपर से नीचे)",
+                        items: [
+                            "साक्षी भाव - जीवन-दृष्टि का परिवर्तन",
+                            "अंतर्दर्शन - कषायों से मुक्ति",
+                            "परिक्षमणा - सच्ची क्षमायाचना",
+                            "परिश्रमणा - अप्रमाद और निरंतर पुरुषार्थ",
+                            "आत्मौपम्य की भावना - सर्वजीव कल्याण",
+                            "संवेदना की व्यापकता - विश्व एक परिवार",
+                            "सेवा और समाज कल्याण",
+                            "उपकारों और सद्गुणों का परावर्तन"
+                        ]
+                    }
+                ]
+            },
+            en: {
+                title: "Paryushan Festival Quiz",
+                subtitle: "Test your knowledge and learn more about the eight steps",
+                scoreTitle: "Quiz Complete!",
+                scoreMessage: "You have a great understanding of the principles of Paryushan. Excellent work!",
+                restartBtn: "Play Again",
+                quizSections: [
+                    {
+                        format: "mcq",
+                        title: "Format 1: Multiple Choice Questions",
+                        questions: [
+                            { question: "What is the literal meaning of Paryushan?", options: ["To reside near the soul", "To nourish the body", "To gain material wealth", "To fast"], answer: 0, explanation: "The literal meaning of Paryushan is 'to reside near the soul,' emphasizing self-reflection and purification." },
+                            { question: "What does the eighth step of Paryushan teach?", options: ["Only self-welfare", "Service to humans and all living beings", "Accumulation of wealth", "To be angry"], answer: 1, explanation: "The eighth step, 'Pajusan', teaches service to humans and all living beings through mind, speech, and action." },
+                            { question: "According to Jainism, from whom should one ask for forgiveness?", options: ["From a Guru", "From God in a temple", "From the one who has been hurt", "From no one"], answer: 2, explanation: "The specialty of Jainism is that one should go to the person who has been hurt and ask for forgiveness directly." },
+                            { question: "What is the biggest obstacle on the spiritual path?", options: ["Hard work", "Awareness", "Pramad (Laziness)", "Charity"], answer: 2, explanation: "'Pramad', meaning laziness or negligence, is considered the biggest obstacle on the spiritual path." },
+                            { question: "What did Revati Shravika offer to Lord Mahavir?", options: ["Kheer (sweet pudding)", "Fruits", "Bijorapak (a special preparation)", "Clothes"], answer: 2, explanation: "Revati Shravika offered Bijorapak to Lord Mahavir with immense faith, which cured him of his illness." },
+                            { question: "What is the meaning of the feeling of 'Atmopamya'?", options: ["To consider oneself the best", "To consider all beings as one's own self", "To be jealous of others", "Compassion only for humans"], answer: 1, explanation: "The feeling of 'Atmopamya' means thinking 'as is my soul, so is the soul of others' and thus not causing harm to anyone." },
+                            { question: "Whom does the Namaskar Mahamantra bow to?", options: ["A specific person", "Gods and goddesses", "Arihant (one who has conquered inner enemies)", "Nature"], answer: 2, explanation: "The Namaskar Mahamantra bows not to a person, but to qualities like 'Arihant', one who has conquered inner enemies like anger and greed." },
+                            { question: "According to Lord Mahavir, why is man defeated?", options: ["Due to external factors", "Due to fate", "Due to his own craving, greed, and delusion", "Due to other people"], answer: 2, explanation: "Lord Mahavir observed that man is defeated not by external factors, but by his own internal causes like craving, greed, and delusion." },
+                        ]
+                    },
+                    {
+                        format: "true_false",
+                        title: "Format 2: True or False",
+                        questions: [
+                            { question: "The Paryushan festival is mainly for nourishing the body.", answer: false, explanation: "False. Worldly festivals nourish the body, whereas the Paryushan festival nourishes the mind and focuses on self-purification." },
+                            { question: "The first step of Paryushan teaches to observe life's situations with detachment (as a witness).", answer: true, explanation: "True. The first step teaches us to view the ups and downs of life as the fruit of our own karma, with a sense of being a witness." },
+                            { question: "Vices like anger, greed, and illusion are helpful in self-development.", answer: false, explanation: "False. Vices like lust, anger, greed, and illusion create negativity in life and are obstacles to self-development." },
+                            { question: "Having money is essential for performing service (Seva).", answer: false, explanation: "False. The basis of service is not money, but the heart and the will to serve." },
+                            { question: "Paryushan is a supra-worldly festival of renunciation and substance.", answer: true, explanation: "True. Paryushan is not a festival of gain or enjoyment, but a festival of renunciation, self-control, and self-purification." },
+                            { question: "Our compassion should be limited only to our family.", answer: false, explanation: "False. The seventh step teaches that our compassion should become so vast that the whole world feels like our family." },
+                            { question: "Revati Shravika will become a Tirthankara in the next time cycle.", answer: true, explanation: "True. As a result of her unique offering, Revati Shravika will be born as the 17th Tirthankara named 'Samadhi' in the next cosmic cycle (Chovisi)." },
+                            { question: "Paryushan teaches us to focus on the faults of others.", answer: false, explanation: "False. The eighth step is like a mirror, teaching us to reflect not the faults of others, but their virtues and favors in our own life." },
+                        ]
+                    },
+                    {
+                        format: "fill_blank",
+                        title: "Format 3: Fill in the Blanks",
+                        questions: [
+                            { question: "Paryushan awakens man from the _____ of material prosperity.", answer: "stupor", explanation: "Paryushan awakens us from the stupor or illusion of material possessions and leads us towards self-awareness." },
+                            { question: "According to the second step, it is necessary to perform _____ to recognize one's vices.", answer: "introspection", explanation: "The second step teaches us to look within (introspection) to identify negative tendencies like anger and greed." },
+                            { question: "The most important principle of Jainism is _____.", answer: "Apramad", explanation: "Apramad, meaning constant awareness and effort, is a key principle of Jainism that saves us from wrongful conduct." },
+                            { question: "The four sentiments to be held in the mind are Maitri (friendliness), Karuna (compassion), Mudita (joy), and _____.", answer: "Upeksha", explanation: "These four sentiments (Maitri, Karuna, Mudita, Upeksha) help in keeping the mind pure and balanced." },
+                            { question: "Lord Mahavir has said that the _____ resides within our body.", answer: "divine soul", explanation: "Lord Mahavir's message is that a part of the divine soul resides in every living being, which we must discover." },
+                            { question: "The favorable and unfavorable situations in life are the fruit of our good and bad _____.", answer: "karmas", explanation: "According to the first step, the happiness and sorrow we experience are the results of our own past karmas." },
+                            { question: "When service is added to life, it becomes a '_____ Life'.", answer: "Divine", explanation: "When the spirit of selfless service is added to life, it transforms from an ordinary life into a Divine Life." },
+                            { question: "Paryushan is a festival of moving from a state of impurity (Vibhav) to a state of _____ (Swabhav).", answer: "natural self", explanation: "Paryushan guides us back to our original nature, which is the pure state of the soul (Swabhav dasha)." },
+                        ]
+                    },
+                    {
+                        format: "match",
+                        title: "Format 4: Match the Following",
+                        instructions: "Match the main idea of the step on the left with its description on the right.",
+                        pairs: [
+                            { item: "First Step", match: "Witness Attitude" },
+                            { item: "Second Step", match: "Introspection" },
+                            { item: "Fifth Step", match: "Vigilance (Apramad)" },
+                            { item: "Sixth Step", match: "Equanimity (Atmopamya)" },
+                            { item: "Seventh Step", match: "Universality" },
+                            { item: "Eighth Step", match: "Service" },
+                            { item: "Third/Fourth Step", match: "Asking for Forgiveness" },
+                            { item: "Lord Mahavir's Message", match: "Self-control and Non-violence" }
+                        ]
+                    },
+                    {
+                        format: "order",
+                        title: "Format 5: Arrange in Correct Order",
+                        instructions: "Arrange the main ideas of the eight steps of Paryushan in their correct sequence (from top to bottom).",
+                        items: [
+                            "Witness Attitude - Transformation of life's perspective",
+                            "Introspection - Freedom from passions",
+                            "Asking for Forgiveness - True apology",
+                            "Diligence - Vigilance and constant effort",
+                            "Equanimity - Welfare of all living beings",
+                            "Universality of Compassion - The world is one family",
+                            "Service and Social Welfare",
+                            "Reflection of Virtues and Favors"
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // --- STATE ---
+        let currentLang = 'gu';
+        let score = 0;
+        let totalQuestions = 0;
+        let answeredQuestions = 0;
+
+        // --- DOM ELEMENTS ---
+        const mainTitle = document.getElementById('main-title');
+        const subTitle = document.getElementById('sub-title');
+        const quizContainer = document.getElementById('quiz-container');
+        const scoreScreen = document.getElementById('score-screen');
+        const scoreTitle = document.getElementById('score-title');
+        const scoreText = document.getElementById('score-text');
+        const scoreMessage = document.getElementById('score-message');
+        const restartBtn = document.getElementById('restart-btn');
+        const langButtons = document.querySelectorAll('.lang-btn');
+
+        // --- FUNCTIONS ---
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderQuiz() {
+            const langData = quizData[currentLang];
+            mainTitle.textContent = langData.title;
+            subTitle.textContent = langData.subtitle;
+            mainTitle.className = `text-3xl md:text-4xl font-bold text-teal-600 ${currentLang}-font`;
+            subTitle.className = `text-gray-600 mt-2 ${currentLang}-font`;
+
+            quizContainer.innerHTML = '';
+            totalQuestions = 0;
+
+            langData.quizSections.forEach((section, sectionIndex) => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'p-6 bg-white rounded-2xl shadow-lg question-card';
+                
+                let questionsHtml = '';
+                const questions = shuffleArray([...section.questions || section.pairs || section.items]).slice(0, 8);
+                
+                if (section.format === 'mcq' || section.format === 'true_false') {
+                    totalQuestions += questions.length;
+                    questions.forEach((q, qIndex) => {
+                        const correctAnswerIndex = (section.format === 'true_false') ? (q.answer ? 0 : 1) : q.answer;
+                        const explanation = q.explanation.replace(/`/g, "'"); // Escape backticks
+                        
+                        const optionsHtml = (section.format === 'mcq' ? q.options : ['ખરું / सही / True', 'ખોટું / गलत / False']).map((opt, i) =>
+                            `<button class="option-btn w-full text-left p-3 my-2 border-2 border-gray-200 rounded-lg hover:bg-gray-100 ${currentLang}-font" onclick="checkAnswer(this, ${i}, ${correctAnswerIndex}, \`${explanation}\`)">${opt}</button>`
+                        ).join('');
+
+                        questionsHtml += `
+                            <div id="q-${sectionIndex}-${qIndex}" class="mb-6">
+                                <p class="font-semibold text-lg mb-2 ${currentLang}-font">${qIndex + 1}. ${q.question}</p>
+                                <div class="options">${optionsHtml}</div>
+                                <div class="feedback p-4 mt-2 bg-blue-50 border border-blue-200 rounded-lg ${currentLang}-font">
+                                    <p class="font-bold text-blue-800"></p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else if (section.format === 'fill_blank') {
+                    totalQuestions += questions.length;
+                    questions.forEach((q, qIndex) => {
+                        const answer = q.answer.replace(/`/g, "'");
+                        const explanation = q.explanation.replace(/`/g, "'");
+                        questionsHtml += `
+                            <div id="q-${sectionIndex}-${qIndex}" class="mb-6">
+                                <p class="font-semibold text-lg mb-2 ${currentLang}-font">${qIndex + 1}. ${q.question.replace('_____', '<input type="text" class="blank-input border-b-2 border-gray-400 focus:border-teal-500 outline-none text-center w-32 mx-1">')}</p>
+                                <button class="mt-2 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 ${currentLang}-font" onclick="checkFillBlank(this, \`${answer}\`, \`${explanation}\`)">Check</button>
+                                <div class="feedback p-4 mt-2 bg-blue-50 border border-blue-200 rounded-lg ${currentLang}-font">
+                                    <p class="font-bold text-blue-800"></p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else if (section.format === 'match') {
+                    totalQuestions += 1; // Match is one big question
+                    const shuffledPairs = shuffleArray([...section.pairs]);
+                    const items = shuffledPairs.map(p => p.item);
+                    const matches = shuffleArray(shuffledPairs.map(p => p.match));
+                    
+                    const itemsHtml = items.map((item, i) => `<div class="match-item p-3 my-2 border-2 border-gray-200 rounded-lg cursor-pointer ${currentLang}-font" onclick="selectMatchItem(this, 'item', ${sectionIndex})">${item}</div>`).join('');
+                    const matchesHtml = matches.map((match, i) => `<div class="match-item p-3 my-2 border-2 border-gray-200 rounded-lg cursor-pointer ${currentLang}-font" onclick="selectMatchItem(this, 'match', ${sectionIndex})">${match}</div>`).join('');
+
+                    questionsHtml = `
+                        <div id="q-${sectionIndex}-0">
+                            <p class="text-gray-600 mb-4 ${currentLang}-font">${section.instructions}</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div id="match-items-${sectionIndex}">${itemsHtml}</div>
+                                <div id="match-matches-${sectionIndex}">${matchesHtml}</div>
+                            </div>
+                            <button class="mt-4 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 ${currentLang}-font" onclick="checkMatch(${sectionIndex})">Check Matches</button>
+                            <div class="feedback p-4 mt-2 bg-blue-50 border border-blue-200 rounded-lg ${currentLang}-font"></div>
+                        </div>
+                    `;
+                } else if (section.format === 'order') {
+                    totalQuestions += 1; // Order is one big question
+                    const shuffledItems = shuffleArray([...section.items]);
+                    const itemsHtml = shuffledItems.map((item, i) => `
+                        <div class="draggable bg-gray-100 p-3 my-2 border border-gray-300 rounded-lg shadow-sm flex items-center justify-between ${currentLang}-font" draggable="true" data-index="${i}">
+                            <span>${item}</span>
+                            <span class="text-gray-400">☰</span>
+                        </div>
+                    `).join('');
+                    questionsHtml = `
+                        <div id="q-${sectionIndex}-0">
+                            <p class="text-gray-600 mb-4 ${currentLang}-font">${section.instructions}</p>
+                            <div id="order-container-${sectionIndex}" class="drop-zone p-2 rounded-lg">${itemsHtml}</div>
+                            <button class="mt-4 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 ${currentLang}-font" onclick="checkOrder(${sectionIndex})">Check Order</button>
+                            <div class="feedback p-4 mt-2 bg-blue-50 border border-blue-200 rounded-lg ${currentLang}-font"></div>
+                        </div>
+                    `;
+                }
+
+                sectionDiv.innerHTML = `
+                    <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b-2 border-teal-200 pb-2 ${currentLang}-font">${section.title}</h2>
+                    ${questionsHtml}
+                `;
+                quizContainer.appendChild(sectionDiv);
+
+                if (section.format === 'order') {
+                    addDragDropListeners(sectionIndex);
+                }
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.body.className = `bg-gray-100 text-gray-800 ${lang}-font`;
+            langButtons.forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-yellow-400');
+            });
+            document.querySelector(`.lang-btn[onclick="changeLanguage('${lang}')"]`).classList.add('ring-2', 'ring-offset-2', 'ring-yellow-400');
+            restartQuiz();
+        }
+
+        function checkAnswer(btnElement, selectedOptionIndex, correctIndex, explanation) {
+            const qContainer = btnElement.closest('.mb-6');
+            const isCorrect = selectedOptionIndex === correctIndex;
+            
+            const options = qContainer.querySelectorAll('.option-btn');
+            
+            options.forEach(opt => opt.disabled = true);
+            
+            if (isCorrect) {
+                score++;
+                btnElement.classList.add('correct');
+            } else {
+                btnElement.classList.add('incorrect');
+                options[correctIndex].classList.add('correct');
+            }
+            
+            const feedback = qContainer.querySelector('.feedback');
+            feedback.querySelector('p').textContent = explanation;
+            feedback.classList.add('show');
+            
+            answeredQuestions++;
+            checkIfQuizFinished();
+        }
+
+        function checkFillBlank(btnElement, answer, explanation) {
+            const qContainer = btnElement.closest('.mb-6');
+            const input = qContainer.querySelector('input');
+            
+            if (input.value.trim().toLowerCase() === answer.toLowerCase()) {
+                score++;
+                input.classList.add('bg-green-100', 'border-green-500');
+            } else {
+                input.classList.add('bg-red-100', 'border-red-500');
+            }
+            
+            input.disabled = true;
+            btnElement.disabled = true;
+            
+            const feedback = qContainer.querySelector('.feedback');
+            const answerLabel = { gu: 'જવાબ:', hi: 'उत्तर:', en: 'Answer:' }[currentLang];
+            feedback.querySelector('p').innerHTML = `<b>${answerLabel}</b> ${answer}. ${explanation}`;
+            feedback.classList.add('show');
+            
+            answeredQuestions++;
+            checkIfQuizFinished();
+        }
+
+        let selectedMatch = { item: null, match: null };
+        function selectMatchItem(element, type, sectionIndex) {
+            const parentId = type === 'item' ? `match-items-${sectionIndex}` : `match-matches-${sectionIndex}`;
+            const siblings = document.getElementById(parentId).querySelectorAll('.match-item');
+            siblings.forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedMatch[type] = element;
+
+            if (selectedMatch.item && selectedMatch.match) {
+                const itemText = selectedMatch.item.textContent;
+                const matchText = selectedMatch.match.textContent;
+                const pair = quizData[currentLang].quizSections[sectionIndex].pairs.find(p => p.item === itemText);
+                
+                if (pair && pair.match === matchText) {
+                    selectedMatch.item.classList.add('bg-green-100', 'pointer-events-none');
+                    selectedMatch.match.classList.add('bg-green-100', 'pointer-events-none');
+                } else {
+                    selectedMatch.item.classList.add('bg-red-100');
+                    selectedMatch.match.classList.add('bg-red-100');
+                    setTimeout(() => {
+                        selectedMatch.item.classList.remove('bg-red-100', 'selected');
+                        selectedMatch.match.classList.remove('bg-red-100', 'selected');
+                        selectedMatch = { item: null, match: null };
+                    }, 1000);
+                }
+                selectedMatch.item.classList.remove('selected');
+                selectedMatch.match.classList.remove('selected');
+                selectedMatch = { item: null, match: null };
+            }
+        }
+
+        function checkMatch(sectionIndex) {
+            const section = quizData[currentLang].quizSections[sectionIndex];
+            const items = document.getElementById(`match-items-${sectionIndex}`).children;
+            const matches = document.getElementById(`match-matches-${sectionIndex}`).children;
+            let correctMatches = 0;
+            let feedbackHtml = '<h4>Correct Pairs:</h4><ul>';
+            
+            const allMatched = Array.from(items).every(item => item.classList.contains('pointer-events-none'));
+            if(allMatched) {
+                score++;
+                correctMatches = section.pairs.length;
+            }
+
+            section.pairs.forEach(p => {
+                feedbackHtml += `<li><b>${p.item}</b> &rarr; ${p.match}</li>`;
+            });
+            feedbackHtml += '</ul>';
+
+            const feedbackEl = document.querySelector(`#q-${sectionIndex}-0 .feedback`);
+            feedbackEl.innerHTML = feedbackHtml;
+            feedbackEl.classList.add('show');
+            document.querySelector(`#q-${sectionIndex}-0 button`).disabled = true;
+            
+            answeredQuestions++;
+            checkIfQuizFinished();
+        }
+
+        function addDragDropListeners(sectionIndex) {
+            const container = document.getElementById(`order-container-${sectionIndex}`);
+            let draggedItem = null;
+
+            container.addEventListener('dragstart', e => {
+                draggedItem = e.target;
+                setTimeout(() => e.target.style.opacity = '0.5', 0);
+            });
+
+            container.addEventListener('dragend', e => {
+                setTimeout(() => {
+                    e.target.style.opacity = '1';
+                    draggedItem = null;
+                }, 0);
+            });
+
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                if (afterElement == null) {
+                    container.appendChild(draggedItem);
+                } else {
+                    container.insertBefore(draggedItem, afterElement);
+                }
+            });
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function checkOrder(sectionIndex) {
+            const correctOrder = quizData[currentLang].quizSections[sectionIndex].items;
+            const container = document.getElementById(`order-container-${sectionIndex}`);
+            const userOrderElements = container.querySelectorAll('.draggable');
+            let isCorrect = true;
+            let feedbackHtml = '<h4>Correct Order:</h4><ol>';
+
+            userOrderElements.forEach((el, i) => {
+                const userItemText = el.querySelector('span').textContent;
+                if (userItemText !== correctOrder[i]) {
+                    isCorrect = false;
+                    el.classList.add('bg-red-200');
+                } else {
+                    el.classList.add('bg-green-200');
+                }
+                el.setAttribute('draggable', 'false');
+            });
+            
+            if (isCorrect) {
+                score++;
+            }
+
+            correctOrder.forEach(item => {
+                feedbackHtml += `<li>${item}</li>`;
+            });
+            feedbackHtml += '</ol>';
+
+            const feedbackEl = document.querySelector(`#q-${sectionIndex}-0 .feedback`);
+            feedbackEl.innerHTML = feedbackHtml;
+            feedbackEl.classList.add('show');
+            document.querySelector(`#q-${sectionIndex}-0 button`).disabled = true;
+
+            answeredQuestions++;
+            checkIfQuizFinished();
+        }
+
+        function checkIfQuizFinished() {
+            if (answeredQuestions === totalQuestions) {
+                setTimeout(showScore, 1000);
+            }
+        }
+
+        function showScore() {
+            const langData = quizData[currentLang];
+            quizContainer.style.opacity = '0';
+            setTimeout(() => {
+                quizContainer.classList.add('hidden');
+                scoreScreen.classList.remove('hidden');
+                scoreTitle.textContent = langData.scoreTitle;
+                scoreText.textContent = `${score} / ${totalQuestions}`;
+                scoreMessage.textContent = langData.scoreMessage;
+                restartBtn.textContent = langData.restartBtn;
+                scoreTitle.className = `text-3xl font-bold text-gray-800 mb-4 ${currentLang}-font`;
+                scoreMessage.className = `text-lg text-gray-600 mb-8 ${currentLang}-font`;
+                restartBtn.className = `bg-teal-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-teal-600 transition shadow-lg ${currentLang}-font`;
+            }, 500);
+        }
+
+        function restartQuiz() {
+            score = 0;
+            answeredQuestions = 0;
+            scoreScreen.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            quizContainer.style.opacity = '1';
+            renderQuiz();
+        }
+
+        // Initial Load
+        window.onload = () => {
+            changeLanguage('gu');
+        };
+    </script>
+
+</body>
+</html>

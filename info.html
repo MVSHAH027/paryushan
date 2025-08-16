@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>પર્વાધિરાજ પર્યુષણના આઠ સોપાન</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for better aesthetics */
+        body {
+            font-family: 'Inter', 'Noto Sans Gujarati', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .gujarati { font-family: 'Noto Sans Gujarati', sans-serif; }
+        .hindi { font-family: 'Noto Sans Devanagari', sans-serif; }
+        .english { font-family: 'Inter', sans-serif; }
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+        .lang-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .lang-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 max-w-3xl">
+        <!-- Language Selection Buttons -->
+        <div class="flex justify-center space-x-2 sm:space-x-4 p-4 bg-white rounded-xl shadow-md sticky top-4 z-10 mb-6">
+            <button id="btn-gu" class="lang-btn active text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 font-bold py-2 px-4 rounded-full" onclick="changeLanguage('gu')">ગુજરાતી</button>
+            <button id="btn-hi" class="lang-btn text-white bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 font-bold py-2 px-4 rounded-full" onclick="changeLanguage('hi')">हिन्दी</button>
+            <button id="btn-en" class="lang-btn text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 font-bold py-2 px-4 rounded-full" onclick="changeLanguage('en')">English</button>
+        </div>
+
+        <!-- Main Content Area -->
+        <main id="content-area" class="gujarati">
+            <!-- Content will be dynamically inserted here -->
+        </main>
+        
+        <!-- Footer -->
+        <footer class="text-center py-8 text-gray-600">
+            <p id="footer-text" class="font-semibold text-lg">મનીષ વી. શાહ</p>
+            <p id="footer-contact">વોટ્સએપ: 94299 26447 (વડોદરા)</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Data Object for all languages ---
+        const content = {
+            gu: {
+                langClass: 'gujarati',
+                title: "પર્વાધિરાજ પર્યુષણ: કાયામાં છૂપાયેલા પરમાત્માની શોધ!",
+                subtitle: "પર્વાધિરાજ પર્યુષણના આઠ સોપાન",
+                author: "જાણ્યું છતાં અજાણ્યું-મુનીન્દ્ર",
+                intro: "પર્યુષણ પર્વથી માનવીના મનનું પોષણ થાય છે, તપ, જપ, મૈત્રી અને ક્ષમા દ્વારા એ પોતાની ભીતરની ચેતનામય જ્યોતિ સુધી પહોંચે છે.",
+                sections: [
+                    {
+                        title: "પર્વાધિરાજ પર્યુષણ: આત્માની અનંત યાત્રાનું દર્પણ",
+                        content: "પર્વાધિરાજ પર્યુષણ એ માત્ર એક ધાર્મિક ઉત્સવ નથી, પરંતુ તે માનવીના આંતરિક પરિવર્તન, ચિત્તશુદ્ધિ અને આત્મદર્શનની એક ગહન યાત્રા છે. આ પર્વ માનવીના મનનું પોષણ કરીને તેને પોતાની ભીતર રહેલી ચેતનામય જ્યોતિ સુધી પહોંચાડે છે, અને તપ, જપ, મૈત્રી તેમજ ક્ષમા જેવા ગુણોના માધ્યમથી આત્મરત, આત્મસંલગ્ન અને આત્મપ્રિય બનાવે છે. લૌકિક પર્વો જ્યાં શરીરનું પોષણ કરે છે, ત્યાં પર્યુષણ પર્વ મનને પોષે છે. આ પાવન પર્વના આઠ સોપાનો માનવ જીવનને સાચી દિશા ચીંધે છે."
+                    },
+                    {
+                        title: "૧. પ્રસ્તાવના: પર્વાધિરાજ પર્યુષણ - આત્માની શોધનો માર્ગ",
+                        content: "પર્યુષણનો શાબ્દિક અર્થ 'આત્માની સમીપ વસવું' એવો થાય છે. પરંતુ અનંતકાળથી આત્મા મોહ, મિથ્યાત્વ, કષાય અને અજ્ઞાનના અંધકારમાં જીવી રહ્યો છે, પોતાના સ્વ-ભાવને ભૂલીને વિભાવને જ પોતાનું સ્વરૂપ માની બેઠો છે. આના પરિણામે માનવી પારાવાર પીડા, દુ:ખ, કંકાસ અને ક્લેશમાં ડૂબેલો છે, ભૌતિક લાલસાના મૃગજળ પાછળ આંધળી દોટ લગાવી રહ્યો છે. પર્યુષણ એ માનવીને ભૌતિક સમૃદ્ધિની મૂર્છામાંથી જગાડતું અને ચિત્તશુદ્ધિ, હૃદયશુદ્ધિ તથા આત્મશુદ્ધિ પ્રદાન કરતું પરમ પવિત્ર પર્વ છે. વર્ષાઋતુમાં જ્યારે પ્રકૃતિ શુદ્ધ અને સાધના માટે અનુકૂળ હોય છે, ત્યારે પર્યુષણનું આગમન થાય છે."
+                    },
+                    {
+                        title: "૨. પર્યુષણના આઠ પાવન સોપાનોનું વિસ્તૃત વિવરણ",
+                        content: "પર્વાધિરાજ પર્યુષણના આઠ સોપાન માનવ જીવનને સુચારુ રીતે જીવવાની કલા શીખવે છે:",
+                        steps: [
+                            "<strong>પ્રથમ સોપાન: સાક્ષીભાવ - જીવનદ્રષ્ટિનું પરિવર્તન</strong><br>પર્યુષણ કહે છે કે જીવન એટલે ભરતી અને ઓટ, ચડતી અને પડતી, કે પછી અનુકૂળતા અને પ્રતિકૂળતાનો સમન્વય. આ પર્વ માનવીને જીવન જીવવાનો એક અદ્ભુત નુસખો આપે છે: જીવનમાં આવતી અનુકૂળતા અને પ્રતિકૂળતા એ બંને આપણા શુભ-અશુભ કર્મોનું ફળ હોય છે. આથી, જે કંઈ પરિસ્થિતિ હોય તેને સાક્ષીભાવે જોવી જોઈએ. આ રીતે સાક્ષીભાવથી જીવનાર વ્યક્તિ આનંદપૂર્વક જીવન પસાર કરી શકે છે. આમ, પર્યુષણની આ પહેલી વ્યાખ્યા આપણને એક અનુપમ જીવનદ્રષ્ટિ આપે છે.",
+                            "<strong>દ્વિતીય સોપાન: આંતરદર્શન - કષાયોથી મુક્તિ</strong><br>પર્યુષણની બીજી વ્યાખ્યા આપણને અશુભથી દૂર રહીને શુભમાં રહેવાનો સંદેશ આપે છે. વ્યક્તિના જીવનમાં કામ, ક્રોધ, લોભ અને માયા જેવા કષાયો જ સૌથી વધુ કાગારોળ મચાવતા હોય છે. આવા કષાયોને ઓળખવા માટે પર્યુષણ પર્વ આંતરદર્શન કરવાનું કહે છે. આ આઠ કે દસ દિવસ દરમિયાન પોતાના ભીતરમાં ડોકિયું કરીને પોતાની જીવનનાશક વૃત્તિઓને પારખવાનું તે સૂચવે છે.",
+                            "<strong>તૃતીય/ચતુર્થ સોપાન: પર્યુપક્ષમણા - સાચી ક્ષમાયાચના</strong><br>'પર્યુપક્ષમણા' શબ્દ દ્વારા ક્ષમાયાચનાની વાત કરવામાં આવી છે. જે કોઈને જાણ્યે-અજાણ્યે પણ દુઃખ થયું હોય, તો તેની પાસે જઈને ક્ષમા માંગવી એ જૈન ધર્મની ક્ષમાની વિશિષ્ટતા છે. અહીં કોઈ મંદિરમાં કે ગુરુ પાસે જઈને ક્ષમા માંગવાની વાત નથી, પરંતુ જેને દુઃખ પહોંચાડ્યું છે તેની સમક્ષ જઈને ક્ષમા માંગવાથી જ આવતીકાલનું પ્રભાત સુંદર ઊગે છે.",
+                            "<strong>પંચમ સોપાન: પરિશ્રમણા - અપ્રમાદ અને સતત પુરુષાર્થ</strong><br>પાંચમી વ્યાખ્યા 'પરિશ્રમણા' શબ્દની છે, જેનો અર્થ સતત પરિશ્રમ કરવો એમ થાય છે. અધ્યાત્મના માર્ગે 'પ્રમાદ' (આળસ કે બેદરકારી) એ સૌથી મોટો અવરોધ બને છે. જૈન ધર્મની સૌથી મહત્ત્વની વાત એ પ્રમાદ છે અને આવા અપ્રમાદ (સતત જાગૃતિ અને પ્રયત્ન) સેવનાર વ્યક્તિ અધમ આચરણથી બચી જાય છે.",
+                            "<strong>ષષ્ઠ સોપાન: આત્મોપમ્યની ભાવના - સર્વજીવ કલ્યાણ</strong><br>છઠ્ઠો અર્થ તમામ પ્રાણીઓ પ્રત્યે આત્મોપમ્યની ભાવના રાખવાનો છે. એટલે કે 'જેવો મારો જીવ, એવો જ અન્ય વ્યક્તિનો જીવ' અને 'જેવું મને દુઃખ થાય એવું તેને પણ દુઃખ થાય' એમ વિચારીને, પછી તે માનવ હોય કે પ્રાણી, કોઈને પણ ઇજા પહોંચાડવી નહીં.",
+                            "<strong>સપ્તમ સોપાન: સંવેદનાની વ્યાપકતા - વિશ્વ એક કુટુંબ</strong><br>સાતમાં સોપાનમાં વ્યાપકતાની વાત કરવામાં આવી છે. આપણી સંવેદના એટલી વ્યાપક બને કે આખું વિશ્વ મને મારા કુટુંબ જેવું લાગે.",
+                            "<strong>અષ્ટમ સોપાન: સેવા અને સમાજ કલ્યાણ - આત્મવિકાસની પરાકાષ્ઠા</strong><br>આઠમું સોપાન 'પજુસણ' રૂપાંતરથી બને છે અને તેનો અર્થ માનવ અને પ્રાણીમાત્રની મન, વચન અને કર્મથી સેવા કરવી એવો થાય છે. સેવાનો આધાર પૈસા નથી, પરંતુ હૃદય અને ઇચ્છા છે. માત્ર આત્મકલ્યાણ પૂરતું નથી, સમાજકલ્યાણની પણ જરૂર છે. જે માણસ માત્ર પોતાની સેવામાં રચ્યોપચ્યો રહે છે, એ જગતના કમરાનું પોતાનું ભાડું ચૂકવતો નથી. માણસને પોતાના વિકાસ માટે સામાજિક સહયોગની જરૂર છે; એકલવાયા ટાપુ પર જીવનારો વ્યક્તિ સંપૂર્ણ વિકાસ સાધી શકતો નથી. શારીરિક, માનસિક અને બૌદ્ધિક વિકાસ માટે સહયોગ જરૂરી છે. આમ, આત્મવિકાસની યાત્રા સાથે સર્વવિકાસનું કામ કરવાનું છે. કવિએ કહ્યું છે તેમ, \"નથી બહારનું કોઇ બધા જ ઘરનાં છે, તું તારી દ્રષ્ટિની સીમા જરા વધારી જો.\". આત્માનો વિકાસ અહિંસા, સત્ય, તિતિક્ષા (સહનશીલતા), ધૈર્ય વગેરે ગુણોથી થાય છે, પરંતુ તેની ખરી અગ્નિપરીક્ષા તો સમાજની વચ્ચે હોઈએ ત્યારે જ થાય છે. માનવજીવનનું સાર્થક્ય એ માનવ અને પ્રાણીમાત્રની સેવા કરવી એ આઠમું પગથિયું છે. લાઇફમાં સેવા મૂકો એટલે 'ડિવાઇન લાઇફ' થાય. શ્રાવિકા રેવતીનું ઉદાહરણ આ સેવાનું ઉત્તમ પ્રતીક છે. તેમણે અત્યંત શ્રદ્ધાભાવથી ભગવાન મહાવીરને બીજોરાપાક વહોરાવ્યો, જેના સેવનથી પ્રભુ મહાવીર રોગમુક્ત થયા. આ અત્યંત વિશિષ્ટ અને વિરલ દાનને પરિણામે રેવતીને તીર્થંકર પદ પ્રાપ્ત કરવાનું સર્વશ્રેષ્ઠ સદ્ભાગ્ય સાંપડ્યું. દ્રવ્ય, ક્ષેત્ર, કાળ અને ભાવ એમ ચારેયની ઉત્તમતાથી રેવતી આવતી ચોવીસીમાં સમાધિ નામના સત્તરમા તીર્થંકર બનશે. આઠમું અષ્ટમંગલ દર્પણ છે. આ દર્પણ અંધકારનું નહીં, પણ પ્રકાશનું પરાવર્તન કરે છે. એનો અર્થ એ કે બીજાના અવગુણ કે દોષો નહીં, પરંતુ તેના ઉપકારો અને સદ્ગુણોનું જીવનમાં પરાવર્તન કરવું જોઈએ."
+                        ]
+                    },
+                    {
+                        title: "૩. પર્યુષણનો ગૂઢાર્થ અને આત્માની વાસ્તવિકતા",
+                        content: "પર્યુષણ એ અજ્ઞાનમાંથી સમ્યજ્ઞાન તરફ, સ્વહિતને બદલે પરહિત તરફ, અને વિભાવ દશામાંથી સ્વભાવ દશા તરફ ગતિ કરવાનું પર્વ છે. જે સ્વહિતની સાંકડી મર્યાદામાંથી બહાર કાઢીને પરહિતનો વિચાર કરવા માંડે છે, તેના માટે પહેલું કામ ભાવશુદ્ધિનું છે. જૈન ધર્મ ભાવનાનો ધર્મ છે. નમસ્કાર મહામંત્ર કોઈ વ્યક્તિને નહીં, પણ અરિહંતને નમસ્કાર કરે છે - અરિહંત એટલે જેણે આંતર શત્રુઓને જીત્યા છે. આ ભાવનાથી થતી શુદ્ધિ પર જ જીવનની વિશુદ્ધિનો આધાર છે."
+                    },
+                    {
+                        title: "૪. પર્યુષણ દ્વારા થતું રૂપાંતરણ",
+                        content: "ચિત્તમાં મૈત્રી, કરુણા, મુદિતા અને ઉપેક્ષા એ ચાર ભાવો ધારણ કરવાના છે. ભીતરમાં જો આટલું કરવામાં આવે, તો અંદર બેઠેલા ભગવાનની અનુભૂતિ થશે. પર્યુષણ એ વ્યક્તિના જીવનમાં સદાકાળ જન્મોજન્મ સુધી રહેનારી ઊર્ધ્વ ભાવનાઓની ખુશ્બભરી વસંત સર્જે છે."
+                    },
+                    {
+                        title: "૫. ભગવાન મહાવીરનો સંદેશ અને પર્યુષણનો અંતિમ લક્ષ્ય",
+                        content: "ભગવાન મહાવીરે શ્રી આચારાંગ સૂત્રમાં કહ્યું છે તેમ, \"જે રીતે કેરીના હૃદયમાં છુપાયેલી ગોટલીમાં એક વિશાળ આંબાનું વૃક્ષ છુપાયું છે, તે રીતે હે માનવ! તારી કાયામાં પરમાત્મા વસેલો છે, એને તું શોધી લે.\". પર્યુષણ એ આત્મામાં રહેલા પરમાત્માને પામવાનો અષ્ટમંગલમય પુરુષાર્થ કરવાનું પાવન પર્વ છે. ભગવાન મહાવીરે પાયાનો વિચાર કર્યો કે માનવી આટલો બધો લાચાર, હતાશ અને નિરાશ કેમ છે? તેમણે જોયું કે માનવી બહારનાં પરિબળોને કારણે નહીં, પરંતુ પોતાને કારણે જ હારેલો છે. તેની તૃષ્ણા, લાલસા અને મિથ્યાત્વને પરિણામે તે પરાજિત છે. આ પરાજયને વિજયમાં પલટાવવા માટે ભગવાન મહાવીરે સંયમ, અહિંસા અને મૈત્રીનો માર્ગ બતાવ્યો. તેમણે સતત જીવનશુદ્ધિ કરવાનો સંદેશ આપ્યો. આથી, પર્યુષણ પર્વ એ કોઈ લાભ કે ભોગનું પર્વ નથી, પરંતુ ત્યાગ અને સત્વનું લોકોત્તર (લોકોથી પર) પર્વ છે. તે માનવીને આત્મરત, આત્મસંલગ્ન અને આત્મપ્રિય બનાવતું પર્વ છે."
+                    },
+                    {
+                        title: "પર્યુષણ પર્વ: આંતરિક શુદ્ધિ અને આત્મસાક્ષાત્કારનો માર્ગ (FAQ)",
+                        faqs: [
+                            {
+                                q: "Q1: પર્યુષણ પર્વનો મુખ્ય મર્મ શું છે અને તે જીવન જીવવાનો કેવો નુસખો આપે છે?",
+                                a: "પર્યુષણ પર્વનો મુખ્ય મર્મ આત્માની સમીપ વસવાનો છે. તે જીવનમાં આવતી અનુકૂળતા અને પ્રતિકૂળતાને શુભ-અશુભ કર્મોનું ફળ માનીને તેને સાક્ષીભાવે જોવાની શીખ આપે છે. આ દ્રષ્ટિકોણ અપનાવવાથી વ્યક્તિ આનંદપૂર્વક જીવન પસાર કરી શકે છે. તે અશુભથી દૂર રહીને શુભમાં રહેવાનો સંદેશ આપે છે અને કામ, ક્રોધ, લોભ અને માયા જેવા કષાયોને ઓળખીને આંતરદર્શન કરવા પ્રોત્સાહિત કરે છે."
+                            },
+                            {
+                                q: "Q2: પર્યુષણ પર્વ આંતરિક શુદ્ધિ માટે કયા મુખ્ય ઉપાયો સૂચવે છે?",
+                                a: "પર્યુષણ આંતરિક શુદ્ધિ માટે અનેક ઉપાયો સૂચવે છે:<br><strong>કષાયોનું નિયંત્રણ:</strong> કામ, ક્રોધ, લોભ અને માયા જેવા કષાયોને ઓળખીને તેના પર નિયંત્રણ મેળવવા માટે આંતરદર્શન કરવું.<br><strong>ક્ષમાયાચના:</strong> જાણ્યે-અજાણ્યે કોઈને દુઃખ પહોંચાડ્યું હોય તો તેની પાસે જઈને ક્ષમા માંગવી. જૈન ધર્મમાં મંદિરમાં કે ગુરુ પાસે નહીં, પરંતુ સીધા દુઃખ પામેલા વ્યક્તિ પાસે જઈને ક્ષમા માંગવાનું મહત્વ છે.<br><strong>પરિશ્રમણા (અપ્રમાદ):</strong> અધ્યાત્મ માર્ગે પ્રમાદ (આળસ) સૌથી મોટો અવરોધ છે. અપ્રમાદી બનીને સતત પરિશ્રમ કરવો.<br><strong>ભાવશુદ્ધિ:</strong> ચિત્તમાં મૈત્રી, કરુણા, મુદિતા અને ઉપેક્ષા જેવા ચાર ભાવો ધારણ કરવા."
+                            },
+                            {
+                                q: "Q3: પર્યુષણ પર્વ સામાજિક જવાબદારી અને સેવાભાવને કેવી રીતે મહત્વ આપે છે?",
+                                a: "પર્યુષણ પર્વ વ્યક્તિગત આત્મકલ્યાણથી આગળ વધીને સમાજ કલ્યાણ પર ભાર મૂકે છે. આઠમા સોપાનમાં માનવ અને પ્રાણીમાત્રની મન, વચન અને કર્મથી સેવા કરવાની વાત કરવામાં આવી છે. સેવાનો આધાર પૈસા નહીં, પરંતુ હૃદય અને ઇચ્છા છે. તે સમજાવે છે કે જે વ્યક્તિ માત્ર પોતાની સેવામાં રચ્યોપચ્યો રહે છે, તે જગતનું પોતાનું ભાડું ચૂકવતો નથી. સામાજિક સહયોગ શારીરિક, માનસિક અને બૌદ્ધિક વિકાસ માટે અનિવાર્ય છે. કવિના શબ્દોમાં, \"નથી બહારનું કોઈ બધા જ ઘરનાં છે, તું તારી દ્રષ્ટિની સીમા જરા વધારી જો,\" એટલે કે સંવેદનાને એટલી વ્યાપક બનાવવી કે આખું વિશ્વ કુટુંબ જેવું લાગે."
+                            },
+                            {
+                                q: "Q4: \"કાયામાં છુપાયેલા પરમાત્માની શોધ\" નો અર્થ શું છે અને આચારાંગ સૂત્ર આ વિશે શું કહે છે?",
+                                a: "\"કાયામાં છુપાયેલા પરમાત્માની શોધ\" નો અર્થ એ છે કે પરમાત્મા બહાર ક્યાંય નથી, પરંતુ તે આપણા પોતાના શરીરમાં, આપણા આત્મામાં જ બિરાજમાન છે. આપણે મોહ, મિથ્યાત્વ, કષાય અને અજ્ઞાનને કારણે તેને ઓળખી શકતા નથી. શ્રી આચારાંગ સૂત્રમાં ભગવાન મહાવીરે કહ્યું છે કે, \"જે રીતે કેરીના હૃદયમાં છુપાયેલી ગોટલીમાં એક વિશાળ આંબાનું વૃક્ષ છુપાયું છે, તે રીતે હે માનવ! તારી કાયામાં પરમાત્મા વસેલો છે, એને તું શોધી લે.\" પર્યુષણ આ પરમાત્માને પામવા માટે આત્મસંલગ્ન બનવાનું અને સ્વભાવ દશામાં પાછા ફરવાનું પર્વ છે."
+                            },
+                            {
+                                q: "Q5: પર્યુષણ પર્વ અને \"અષ્ટમંગલ\" વચ્ચે શું સંબંધ છે?",
+                                a: "પર્યુષણ પર્વની આઠ વ્યાખ્યાઓ સાથે \"અષ્ટમંગલ\" નું પણ સ્મરણ કરવામાં આવે છે. આઠમું અષ્ટમંગલ \"દર્પણ\" છે, જે પ્રકાશનું પરાવર્તન કરે છે. તેનો અર્થ એ છે કે આપણે બીજાના અવગુણ કે દોષો નહીં, પરંતુ તેમના ઉપકારો અને સદ્ગુણોનું જીવનમાં પરાવર્તન કરવું જોઈએ. આ રીતે, પર્યુષણ અજ્ઞાનમાંથી સમ્યજ્ઞાન તરફ, સ્વહિતને બદલે પરહિત તરફ, અને વિભાવ દશામાંથી સ્વભાવ દશા તરફ ગતિ કરવાનું પર્વ છે."
+                            },
+                            {
+                                q: "Q6: પર્યુષણ પર્વ શા માટે વર્ષાઋતુમાં આવે છે અને આ સમયનું શું મહત્વ છે?",
+                                a: "પર્યુષણ વર્ષાઋતુમાં આવે છે, જ્યારે પ્રકૃતિ શુદ્ધ અને શાંત હોય છે. જમીન ચોખ્ખી બની ગઈ હોય છે અને નદીઓમાંથી મલિનતા ઓસરી ગઈ હોય છે. આ સમય પ્રકૃતિની શુદ્ધતાને કારણે સાધના માટે અત્યંત અનુકૂળ માનવામાં આવે છે. આવા શુદ્ધ વાતાવરણમાં, મનુષ્ય ભૌતિક લાલસાના મૃગજળમાંથી બહાર આવીને ચિત્તશુદ્ધિ, હૃદયશુદ્ધિ અને આત્મશુદ્ધિ માટે પ્રયાસ કરી શકે છે."
+                            },
+                            {
+                                q: "Q7: પર્યુષણ પર્વ મનુષ્યને ભૌતિક સમૃદ્ધિની મૂર્છામાંથી કેવી રીતે જગાડે છે?",
+                                a: "આધુનિક યુગમાં મનુષ્ય ચોમેર દોડધામ કરે છે અને મૃત્યુને જુએ ત્યારે જ જીવનનો વિચાર કરવાનું શરૂ કરે છે. પર્યુષણ પર્વ આ ભૌતિક સમૃદ્ધિની મૂર્છામાંથી મનુષ્યને જગાડે છે. તે સમજાવે છે કે મનુષ્ય પોતાની તૃષ્ણા, લાલસા અને મિથ્યાત્વને કારણે જ હતાશ અને નિરાશ છે. આ પરાજયને વિજયમાં પલટાવવા માટે ભગવાન મહાવીરે સંયમ, અહિંસા અને મૈત્રીનો માર્ગ બતાવ્યો. પર્યુષણ કોઈ લાભ કે ભોગનું પર્વ નથી, પરંતુ ત્યાગ અને સત્વનું લોક કલ્યાણકારી પર્વ છે."
+                            },
+                            {
+                                q: "Q8: પર્યુષણ પર્વ કેવી રીતે મનનું પોષણ કરે છે અને વ્યક્તિને તેની ભીતરની ચેતનામય જ્યોતિ સુધી પહોંચાડે છે?",
+                                a: "લૌકિક પર્વો શરીરનું પોષણ કરે છે, જ્યારે પર્યુષણ પર્વ મનુષ્યના મનનું પોષણ કરે છે. તપ, જપ, મૈત્રી અને ક્ષમા જેવા ગુણો દ્વારા વ્યક્તિ પોતાની ભીતરની ચેતનામય જ્યોતિ સુધી પહોંચે છે. અનંતકાળથી આત્મા જે મિથ્યાત્વ, કષાય, મોહ અને અજ્ઞાનમાં વસતો આવ્યો છે, તેમાંથી મુક્ત થવા પર્યુષણ માર્ગદર્શન આપે છે. તે વ્યક્તિને આત્મરત, આત્મસંલગ્ન અને આત્મપ્રિય બનવાનું શીખવે છે, જેથી તે પોતાના સાચા સ્વરૂપને ઓળખી શકે."
+                            }
+                        ]
+                    }
+                ],
+                footer: {
+                    name: "મનીષ વી. શાહ",
+                    contact: "વોટ્સએપ: 94299 26447 (વડોદરા)"
+                }
+            },
+            hi: {
+                langClass: 'hindi',
+                title: "पर्वाधिराज पर्युषण: काया में छिपे परमात्मा की खोज!",
+                subtitle: "पर्वाधिराज पर्युषण के आठ सोपान",
+                author: "जाना हुआ फिर भी अनजाना-मुनींद्र",
+                intro: "पर्युषण पर्व से मानव के मन का पोषण होता है, तप, जप, मैत्री और क्षमा द्वारा वह अपनी भीतर की चेतनामय ज्योति तक पहुँचता है।",
+                sections: [
+                    {
+                        title: "पर्वाधिराज पर्युषण: आत्मा की अनंत यात्रा का दर्पण",
+                        content: "पर्वाधिराज पर्युषण केवल एक धार्मिक उत्सव नहीं है, बल्कि यह मानव के आंतरिक परिवर्तन, चित्तशुद्धि और आत्मदर्शन की एक गहन यात्रा है। यह पर्व मानव के मन का पोषण करके उसे अपनी भीतर स्थित चेतनामय ज्योति तक पहुँचाता है, और तप, जप, मैत्री तथा क्षमा जैसे गुणों के माध्यम से आत्मरत, आत्मसंलग्न और आत्मप्रिय बनाता है। लौकिक पर्व जहाँ शरीर का पोषण करते हैं, वहीं पर्युषण पर्व मन को पोषित करता है। इस पावन पर्व के आठ सोपान मानव जीवन को सही दिशा दिखाते हैं।"
+                    },
+                    {
+                        title: "१. प्रस्तावना: पर्वाधिराज पर्युषण - आत्मा की खोज का मार्ग",
+                        content: "पर्युषण का शाब्दिक अर्थ 'आत्मा के समीप बसना' होता है। लेकिन अनंतकाल से आत्मा मोह, मिथ्यात्व, कषाय और अज्ञान के अंधकार में जी रहा है, अपने स्व-भाव को भूलकर विभाव को ही अपना स्वरूप मान बैठा है। इसके परिणामस्वरूप मानव अपार पीड़ा, दुःख, कलह और क्लेश में डूबा हुआ है, भौतिक लालसा के मृगतृष्णा के पीछे अंधी दौड़ लगा रहा है। पर्युषण मानव को भौतिक समृद्धि की मूर्छा से जगाने वाला और चित्तशुद्धि, हृदयशुद्धि तथा आत्मशुद्धि प्रदान करने वाला परम पवित्र पर्व है। वर्षा ऋतु में जब प्रकृति शुद्ध और साधना के लिए अनुकूल होती है, तब पर्युषण का आगमन होता है।"
+                    },
+                    {
+                        title: "२. पर्युषण के आठ पावन सोपानों का विस्तृत विवरण",
+                        content: "पर्वाधिराज पर्युषण के आठ सोपान मानव जीवन को सुचारू रूप से जीने की कला सिखाते हैं:",
+                        steps: [
+                            "<strong>प्रथम सोपान: साक्षीभाव - जीवनदृष्टि का परिवर्तन</strong><br>पर्युषण कहता है कि जीवन यानी ज्वार और भाटा, चढ़ाई और उतार, या फिर अनुकूलता और प्रतिकूलता का समन्वय। यह पर्व मानव को जीवन जीने का एक अद्भुत नुस्खा देता है: जीवन में आने वाली अनुकूलता और प्रतिकूलता दोनों हमारे शुभ-अशुभ कर्मों का फल होती हैं। इसलिए, जो भी परिस्थिति हो उसे साक्षीभाव से देखना चाहिए। इस तरह साक्षीभाव से जीने वाला व्यक्ति आनंदपूर्वक जीवन व्यतीत कर सकता है। इस प्रकार, पर्युषण की यह पहली व्याख्या हमें एक अनुपम जीवनदृष्टि प्रदान करती है।",
+                            "<strong>द्वितीय सोपान: अंतर्दर्शन - कषायों से मुक्ति</strong><br>पर्युषण की दूसरी व्याख्या हमें अशुभ से दूर रहकर शुभ में रहने का संदेश देती है। व्यक्ति के जीवन में काम, क्रोध, लोभ और माया जैसे कषाय ही सबसे अधिक कोलाहल मचाते हैं। ऐसे कषायों को पहचानने के लिए पर्युषण पर्व अंतर्दर्शन करने को कहता है। इन आठ या दस दिनों के दौरान अपने भीतर झाँककर अपनी जीवननाशक वृत्तियों को पहचानने का यह सुझाव देता है।",
+                            "<strong>तृतीय/चतुर्थ सोपान: पर्युपक्षमापना - सच्ची क्षमायाचना</strong><br>'पर्युपक्षमापना' शब्द द्वारा क्षमायाचना की बात की गई है। जिसे भी जाने-अनजाने में दुःख पहुँचा हो, उसके पास जाकर क्षमा माँगना ही जैन धर्म की क्षमा की विशिष्टता है। यहाँ किसी मंदिर में या गुरु के पास जाकर क्षमा माँगने की बात नहीं है, बल्कि जिसे दुःख पहुँचाया है उसके समक्ष जाकर क्षमा माँगने से ही आने वाला कल सुंदर होता है।",
+                            "<strong>पंचम सोपान: परिश्रमणा - अप्रमाद और सतत पुरुषार्थ</strong><br>पाँचवीं व्याख्या 'परिश्रमणा' शब्द की है, जिसका अर्थ निरंतर परिश्रम करना होता है। अध्यात्म के मार्ग पर 'प्रमाद' (आलस्य या लापरवाही) सबसे बड़ी बाधा बनता है। जैन धर्म की सबसे महत्वपूर्ण बात अप्रमाद है और ऐसे अप्रमाद (सतत जागरूकता और प्रयास) का पालन करने वाला व्यक्ति अधम आचरण से बच जाता है।",
+                            "<strong>षष्ठ सोपान: आत्मौपम्य की भावना - सर्वजीव कल्याण</strong><br>छठा अर्थ सभी प्राणियों के प्रति आत्मौपम्य की भावना रखना है। यानी 'जैसा मेरा जीव, वैसा ही अन्य व्यक्ति का जीव' और 'जैसा मुझे दुःख होता है वैसा ही उसे भी दुःख होता है' ऐसा सोचकर, चाहे वह मानव हो या प्राणी, किसी को भी चोट नहीं पहुँचानी चाहिए।",
+                            "<strong>सप्तम सोपान: संवेदना की व्यापकता - विश्व एक कुटुंब</strong><br>सातवें सोपान में व्यापकता की बात की गई है। हमारी संवेदना इतनी व्यापक बने कि सारा विश्व मुझे मेरे परिवार जैसा लगे।",
+                            "<strong>अष्टम सोपान: सेवा और समाज कल्याण - आत्मविकास की पराकाष्ठा</strong><br>आठवां सोपान 'पजुसण' रूपांतर से बना है और इसका अर्थ मानव और प्राणिमात्र की मन, वचन और कर्म से सेवा करना है। सेवा का आधार पैसा नहीं, बल्कि हृदय और इच्छा है। केवल आत्म-कल्याण पर्याप्त नहीं है, समाज-कल्याण की भी आवश्यकता है। जो व्यक्ति केवल अपनी सेवा में लगा रहता है, वह दुनिया के कमरे का अपना किराया नहीं चुकाता। मनुष्य को अपने विकास के लिए सामाजिक सहयोग की आवश्यकता है; एक अकेले द्वीप पर रहने वाला व्यक्ति पूर्ण विकास नहीं कर सकता। शारीरिक, मानसिक और बौद्धिक विकास के लिए सहयोग आवश्यक है। इस प्रकार, आत्म-विकास की यात्रा के साथ-साथ सर्व-विकास का कार्य करना है। कवि ने कहा है, \"नहीं बाहर का कोई सभी घर के हैं, तू अपनी दृष्टि की सीमा जरा बढ़ा कर देख।\" आत्मा का विकास अहिंसा, सत्य, तितिक्षा (सहनशीलता), धैर्य आदि गुणों से होता है, लेकिन उसकी असली अग्निपरीक्षा तो समाज के बीच में ही होती है। मानव जीवन की सार्थकता मानव और प्राणिमात्र की सेवा करना यह आठवां कदम है। जीवन में सेवा जोड़ें तो 'दिव्य जीवन' होता है। श्राविका रेवती का उदाहरण इस सेवा का उत्तम प्रतीक है। उन्होंने अत्यंत श्रद्धाभाव से भगवान महावीर को बिजौरापाक अर्पित किया, जिसके सेवन से प्रभु महावीर रोगमुक्त हुए। इस अत्यंत विशिष्ट और विरल दान के परिणामस्वरूप रेवती को तीर्थंकर पद प्राप्त करने का सर्वश्रेष्ठ सौभाग्य मिला। द्रव्य, क्षेत्र, काल और भाव इन चारों की उत्तमता से रेवती अगली चौबीसी में समाधि नामक सत्रहवें तीर्थंकर बनेंगी। आठवां अष्टमंगल दर्पण है। यह दर्पण अंधकार का नहीं, बल्कि प्रकाश का परावर्तन करता है। इसका अर्थ है कि दूसरों के अवगुण या दोष नहीं, बल्कि उनके उपकारों और सद्गुणों का जीवन में परावर्तन करना चाहिए।"
+                        ]
+                    },
+                    {
+                        title: "३. पर्युषण का गूढ़ार्थ और आत्मा की वास्तविकता",
+                        content: "पर्युषण अज्ञान से सम्यग्ज्ञान की ओर, स्वहित के बजाय परहित की ओर, और विभाव दशा से स्वभाव दशा की ओर गति करने का पर्व है। जो स्वहित की संकीर्ण सीमा से बाहर निकलकर परहित का विचार करने लगता है, उसके लिए पहला काम भावशुद्धि का है। जैन धर्म भावना का धर्म है। नमस्कार महामंत्र किसी व्यक्ति को नहीं, बल्कि अरिहंत को नमस्कार करता है - अरिहंत यानी जिसने आंतरिक शत्रुओं को जीत लिया है। इस भावना से होने वाली शुद्धि पर ही जीवन की विशुद्धि का आधार है।"
+                    },
+                    {
+                        title: "४. पर्युषण द्वारा होने वाला रूपांतरण",
+                        content: "चित्त में मैत्री, करुणा, मुदिता और उपेक्षा ये चार भाव धारण करने हैं। भीतर में यदि इतना किया जाए, तो अंदर बैठे भगवान की अनुभूति होगी। पर्युषण व्यक्ति के जीवन में सदाकाल जन्मों-जन्म तक रहने वाली ऊर्ध्व भावनाओं की खुशबू भरी वसंत का निर्माण करता है।"
+                    },
+                    {
+                        title: "५. भगवान महावीर का संदेश और पर्युषण का अंतिम लक्ष्य",
+                        content: "भगवान महावीर ने श्री आचारांग सूत्र में कहा है, \"जिस तरह आम के हृदय में छिपी गुठली में एक विशाल आम का पेड़ छिपा है, उसी तरह हे मानव! तेरी काया में परमात्मा बसा है, उसे तू खोज ले।\" पर्युषण आत्मा में स्थित परमात्मा को पाने का अष्टमंगलमय पुरुषार्थ करने का पावन पर्व है। भगवान महावीर ने मौलिक विचार किया कि मानव इतना लाचार, हताश और निराश क्यों है? उन्होंने देखा कि मानव बाहरी कारकों के कारण नहीं, बल्कि स्वयं के कारण ही हारा हुआ है। उसकी तृष्णा, लालसा और मिथ्यात्व के परिणामस्वरूप वह पराजित है। इस पराजय को विजय में बदलने के लिए भगवान महावीर ने संयम, अहिंसा और मैत्री का मार्ग दिखाया। उन्होंने निरंतर जीवनशुद्धि का संदेश दिया। इसलिए, पर्युषण पर्व कोई लाभ या भोग का पर्व नहीं है, बल्कि त्याग और सत्व का लोकोत्तर (लोगों से परे) पर्व है। यह मानव को आत्मरत, आत्मसंलग्न और आत्मप्रिय बनाने वाला पर्व है।"
+                    },
+                    {
+                        title: "पर्युषण पर्व: आंतरिक शुद्धि और आत्म-साक्षात्कार का मार्ग (FAQ)",
+                        faqs: [
+                            {
+                                q: "Q1: पर्युषण पर्व का मुख्य मर्म क्या है और यह जीवन जीने का कैसा नुस्खा देता है?",
+                                a: "पर्युषण पर्व का मुख्य मर्म आत्मा के समीप बसना है। यह जीवन में आने वाली अनुकूलता और प्रतिकूलता को शुभ-अशुभ कर्मों का फल मानकर उसे साक्षीभाव से देखने की सीख देता है। यह दृष्टिकोण अपनाने से व्यक्ति आनंदपूर्वक जीवन व्यतीत कर सकता है। यह अशुभ से दूर रहकर शुभ में रहने का संदेश देता है और काम, क्रोध, लोभ और माया जैसे कषायों को पहचानकर अंतर्दर्शन करने के लिए प्रोत्साहित करता है।"
+                            },
+                            {
+                                q: "Q2: पर्युषण पर्व आंतरिक शुद्धि के लिए कौन से मुख्य उपाय सुझाता है?",
+                                a: "पर्युषण आंतरिक शुद्धि के लिए अनेक उपाय सुझाता है:<br><strong>कषायों का नियंत्रण:</strong> काम, क्रोध, लोभ और माया जैसे कषायों को पहचानकर उन पर नियंत्रण पाने के लिए अंतर्दर्शन करना।<br><strong>क्षमायाचना:</strong> जाने-अनजाने में किसी को दुःख पहुँचाया हो तो उसके पास जाकर क्षमा माँगना। जैन धर्म में मंदिर या गुरु के पास नहीं, बल्कि सीधे दुःख पाए व्यक्ति के पास जाकर क्षमा माँगने का महत्व है।<br><strong>परिश्रमणा (अप्रमाद):</strong> अध्यात्म मार्ग पर प्रमाद (आलस्य) सबसे बड़ी बाधा है। अप्रमादी बनकर निरंतर परिश्रम करना।<br><strong>भावशुद्धि:</strong> चित्त में मैत्री, करुणा, मुदिता और उपेक्षा जैसे चार भाव धारण करना।"
+                            },
+                            {
+                                q: "Q3: पर्युषण पर्व सामाजिक जिम्मेदारी और सेवाभाव को कैसे महत्व देता है?",
+                                a: "पर्युषण पर्व व्यक्तिगत आत्म-कल्याण से आगे बढ़कर समाज कल्याण पर जोर देता है। आठवें सोपान में मानव और प्राणिमात्र की मन, वचन और कर्म से सेवा करने की बात की गई है। सेवा का आधार पैसा नहीं, बल्कि हृदय और इच्छा है। यह समझाता है कि जो व्यक्ति केवल अपनी सेवा में लगा रहता है, वह दुनिया का अपना किराया नहीं चुकाता। सामाजिक सहयोग शारीरिक, मानसिक और बौद्धिक विकास के लिए अनिवार्य है। कवि के शब्दों में, \"नहीं बाहर का कोई सभी घर के हैं, तू अपनी दृष्टि की सीमा जरा बढ़ा कर देख,\" यानी संवेदना को इतना व्यापक बनाना कि सारा विश्व परिवार जैसा लगे।"
+                            },
+                            {
+                                q: "Q4: \"काया में छिपे परमात्मा की खोज\" का अर्थ क्या है और आचारांग सूत्र इस बारे में क्या कहता है?",
+                                a: "\"काया में छिपे परमात्मा की खोज\" का अर्थ है कि परमात्मा बाहर कहीं नहीं, बल्कि हमारे अपने शरीर में, हमारी आत्मा में ही विराजमान है। हम मोह, मिथ्यात्व, कषाय और अज्ञान के कारण उसे पहचान नहीं पाते। श्री आचारांग सूत्र में भगवान महावीर ने कहा है, \"जिस तरह आम के हृदय में छिपी गुठली में एक विशाल आम का पेड़ छिपा है, उसी तरह हे मानव! तेरी काया में परमात्मा बसा है, उसे तू खोज ले।\" पर्युषण इस परमात्मा को पाने के लिए आत्मसंलग्न बनने और स्वभाव दशा में वापस लौटने का पर्व है।"
+                            },
+                            {
+                                q: "Q5: पर्युषण पर्व और \"अष्टमंगल\" के बीच क्या संबंध है?",
+                                a: "पर्युषण पर्व की आठ व्याख्याओं के साथ \"अष्टमंगल\" का भी स्मरण किया जाता है। आठवां अष्टमंगल \"दर्पण\" है, जो प्रकाश का परावर्तन करता है। इसका अर्थ है कि हमें दूसरों के अवगुण या दोष नहीं, बल्कि उनके उपकारों और सद्गुणों का जीवन में परावर्तन करना चाहिए। इस तरह, पर्युषण अज्ञान से सम्यग्ज्ञान की ओर, स्वहित के बजाय परहित की ओर, और विभाव दशा से स्वभाव दशा की ओर गति करने का पर्व है।"
+                            },
+                            {
+                                q: "Q6: पर्युषण पर्व वर्षा ऋतु में क्यों आता है और इस समय का क्या महत्व है?",
+                                a: "पर्युषण वर्षा ऋतु में आता है, जब प्रकृति शुद्ध और शांत होती है। जमीन साफ हो जाती है और नदियों से मलिनता धुल जाती है। यह समय प्रकृति की शुद्धता के कारण साधना के लिए अत्यंत अनुकूल माना जाता है। ऐसे शुद्ध वातावरण में, मनुष्य भौतिक लालसा की मृगतृष्णा से बाहर आकर चित्तशुद्धि, हृदयशुद्धि और आत्मशुद्धि के लिए प्रयास कर सकता है।"
+                            },
+                            {
+                                q: "Q7: पर्युषण पर्व मनुष्य को भौतिक समृद्धि की मूर्छा से कैसे जगाता है?",
+                                a: "आधुनिक युग में मनुष्य चारों ओर दौड़-भाग करता है और मृत्यु को देखकर ही जीवन के बारे में सोचना शुरू करता है। पर्युषण पर्व इस भौतिक समृद्धि की मूर्छा से मनुष्य को जगाता है। यह समझाता है कि मनुष्य अपनी तृष्णा, लालसा और मिथ्यात्व के कारण ही हताश और निराश है। इस पराजय को विजय में बदलने के लिए भगवान महावीर ने संयम, अहिंसा और मैत्री का मार्ग दिखाया। पर्युषण कोई लाभ या भोग का पर्व नहीं है, बल्कि त्याग और सत्व का लोक कल्याणकारी पर्व है।"
+                            },
+                            {
+                                q: "Q8: पर्युषण पर्व कैसे मन का पोषण करता है और व्यक्ति को उसकी भीतरी चेतनामय ज्योति तक पहुँचाता है?",
+                                a: "लौकिक पर्व शरीर का पोषण करते हैं, जबकि पर्युषण पर्व मनुष्य के मन का पोषण करता है। तप, जप, मैत्री और क्षमा जैसे गुणों के द्वारा व्यक्ति अपनी भीतरी चेतनामय ज्योति तक पहुँचता है। अनंतकाल से आत्मा जो मिथ्यात्व, कषाय, मोह और अज्ञान में बसता आया है, उससे मुक्त होने के लिए पर्युषण मार्गदर्शन करता है। यह व्यक्ति को आत्मरत, आत्मसंलग्न और आत्मप्रिय बनना सिखाता है, ताकि वह अपने सच्चे स्वरूप को पहचान सके।"
+                            }
+                        ]
+                    }
+                ],
+                footer: {
+                    name: "मनीष वी. शाह",
+                    contact: "व्हाट्सएप: 94299 26447 (वडोदरा)"
+                }
+            },
+            en: {
+                langClass: 'english',
+                title: "Paryushan Parva: The Search for the Divine Within!",
+                subtitle: "The Eight Steps of Parvadhiraj Paryushan",
+                author: "Known yet Unknown - Munindra",
+                intro: "Paryushan Parva nourishes the human mind; through penance, chanting, friendship, and forgiveness, one reaches the inner flame of consciousness.",
+                sections: [
+                    {
+                        title: "Parvadhiraj Paryushan: A Mirror to the Soul's Infinite Journey",
+                        content: "Parvadhiraj Paryushan is not just a religious festival; it is a profound journey of inner transformation, purification of the mind, and self-realization. This festival nourishes the human mind, guiding it to the luminous flame of consciousness within. Through virtues like penance, chanting, friendship, and forgiveness, it helps one become self-absorbed, self-engaged, and self-loving. While worldly festivals nourish the body, Paryushan nourishes the mind. The eight steps of this sacred festival show human life the right direction."
+                    },
+                    {
+                        title: "1. Introduction: Parvadhiraj Paryushan - The Path to Discovering the Soul",
+                        content: "The literal meaning of Paryushan is 'to reside near the soul.' However, for eternity, the soul has been living in the darkness of attachment, delusion, passions, and ignorance, forgetting its true nature and accepting a conditioned state as its identity. As a result, humans are immersed in immense pain, sorrow, conflict, and distress, blindly chasing the mirage of material desires. Paryushan is the supremely sacred festival that awakens humanity from the stupor of material prosperity and bestows purification of mind, heart, and soul. Paryushan arrives during the monsoon season when nature is pure and conducive to spiritual practice."
+                    },
+                    {
+                        title: "2. Detailed Description of the Eight Sacred Steps of Paryushan",
+                        content: "The eight steps of Parvadhiraj Paryushan teach the art of living life in a well-ordered manner:",
+                        steps: [
+                            "<strong>First Step: Witnessing Consciousness - A Change in Life's Perspective</strong><br>Paryushan says that life is a combination of high and low tides, ups and downs, or favorable and unfavorable circumstances. This festival offers a wonderful formula for living: the favorable and unfavorable situations in life are the fruits of our good and bad karmas. Therefore, whatever the situation, one should view it with a sense of detachment, as a witness. A person who lives with this witness consciousness can lead a joyful life. Thus, this first definition of Paryushan gives us a unique perspective on life.",
+                            "<strong>Second Step: Introspection - Freedom from Passions</strong><br>The second definition of Paryushan gives the message to stay away from the inauspicious and remain in the auspicious. In a person's life, passions like lust, anger, greed, and delusion cause the most turmoil. To recognize such passions, the festival of Paryushan calls for introspection. It suggests looking within oneself during these eight or ten days to identify one's life-destroying tendencies.",
+                            "<strong>Third/Fourth Step: Paryupakshamana - True Forgiveness</strong><br>The word 'Paryupakshamana' speaks of asking for forgiveness. The specialty of forgiveness in Jainism is to go to the person who has been hurt, knowingly or unknowingly, and ask for forgiveness. It is not about asking for forgiveness in a temple or from a guru, but by seeking forgiveness from the one who was hurt, the dawn of tomorrow becomes beautiful.",
+                            "<strong>Fifth Step: Parishramana - Diligence and Continuous Effort</strong><br>The fifth definition is of the word 'Parishramana,' which means to strive continuously. On the spiritual path, 'Pramad' (laziness or negligence) is the biggest obstacle. The most important teaching of Jainism is to avoid indolence, and a person who practices such 'Apramad' (constant awareness and effort) is saved from wicked conduct.",
+                            "<strong>Sixth Step: Aatmopamya Bhavana - Welfare of All Beings</strong><br>The sixth meaning is to have a feeling of 'Aatmopamya' (seeing oneself in others) towards all creatures. This means thinking, 'As my soul is, so is the other person's soul,' and 'As I feel pain, so do they.' With this thought, one should not harm anyone, whether human or animal.",
+                            "<strong>Seventh Step: Expansion of Sensitivity - The World as One Family</strong><br>The seventh step talks about expansiveness. Our sensitivity should become so vast that the whole world feels like our own family.",
+                            "<strong>Eighth Step: Service and Social Welfare - The Pinnacle of Self-Development</strong><br>The eighth step is derived from the transformation of 'Pajusan' and its meaning is to serve humans and all living beings with mind, speech, and action. The basis of service is not money, but heart and will. Self-welfare alone is not enough; social welfare is also necessary. A person who is only engrossed in his own service does not pay his rent for his room in the world. Humans need social cooperation for their development; a person living on a lonely island cannot achieve full development. Cooperation is necessary for physical, mental, and intellectual growth. Thus, along with the journey of self-development, the work of universal development must be done. As the poet said, \"There is no outsider, all are of the home; just expand the horizon of your vision.\" The soul develops through virtues like non-violence, truth, forbearance, patience, etc., but its true test is when we are in the midst of society. The purpose of human life is to serve humanity and all creatures; this is the eighth step. Add service to life, and it becomes a 'divine life.' The example of Shravika Revati is the best symbol of this service. With immense faith, she offered 'Bijorapak' to Lord Mahavir, by consuming which Lord Mahavir was cured of his illness. As a result of this extremely special and rare donation, Revati earned the supreme good fortune of attaining the status of a Tirthankara. Due to the excellence of substance, place, time, and emotion, Revati will become the seventeenth Tirthankara named Samadhi in the next cosmic cycle. The eighth is the Ashtamangal mirror. This mirror does not reflect darkness, but light. It means that one should reflect not the faults or flaws of others in life, but their favors and virtues."
+                        ]
+                    },
+                    {
+                        title: "3. The Esoteric Meaning of Paryushan and the Reality of the Soul",
+                        content: "Paryushan is the festival of moving from ignorance to right knowledge, from self-interest to the welfare of others, and from a conditioned state to one's natural state. For one who steps out of the narrow confines of self-interest and begins to think of the welfare of others, the first task is the purification of feelings. Jainism is a religion of emotion. The Namaskar Mahamantra does not bow to any individual but to the Arihant - the one who has conquered inner enemies. The purity of life is based on the purity that comes from this feeling."
+                    },
+                    {
+                        title: "4. The Transformation Through Paryushan",
+                        content: "Four feelings are to be held in the mind: friendship (Maitri), compassion (Karuna), joy in the success of others (Mudita), and equanimity (Upeksha). If this much is done within, one will experience the divine seated inside. Paryushan creates a fragrant spring of sublime emotions that lasts forever in a person's life, for lifetimes to come."
+                    },
+                    {
+                        title: "5. Lord Mahavir's Message and the Ultimate Goal of Paryushan",
+                        content: "As Lord Mahavir said in the Shri Acharanga Sutra, \"Just as a huge mango tree is hidden in the stone concealed within the heart of a mango, O human! The divine resides within your body, go and find it.\" Paryushan is the sacred festival for making the eightfold auspicious effort to attain the divine residing in the soul. Lord Mahavir fundamentally considered why humans are so helpless, dejected, and निराश. He saw that humans are defeated not by external factors but by themselves. They are defeated as a result of their desires, greed, and delusion. To turn this defeat into victory, Lord Mahavir showed the path of self-control, non-violence, and friendship. He gave the message of continuous life purification. Therefore, Paryushan is not a festival of gain or enjoyment, but a transcendent festival of renunciation and substance. It is a festival that makes a person self-absorbed, self-engaged, and self-loving."
+                    },
+                    {
+                        title: "Paryushan Parva: The Path of Inner Purity and Self-Realization (FAQ)",
+                        faqs: [
+                            {
+                                q: "Q1: What is the main essence of Paryushan Parva, and what formula for living does it offer?",
+                                a: "The main essence of Paryushan Parva is to reside near the soul. It teaches us to view the favorable and unfavorable circumstances of life as the fruit of our good and bad karmas and to observe them with a witness-like attitude. By adopting this perspective, a person can live a joyful life. It conveys the message to stay away from the inauspicious and remain in the auspicious, and encourages introspection to recognize passions like lust, anger, greed, and delusion."
+                            },
+                            {
+                                q: "Q2: What are the main remedies suggested by Paryushan Parva for inner purity?",
+                                a: "Paryushan suggests several remedies for inner purity:<br><strong>Control of Passions:</strong> To recognize and control passions like lust, anger, greed, and delusion through introspection.<br><strong>Asking for Forgiveness:</strong> To go to the person who has been hurt, knowingly or unknowingly, and ask for forgiveness. In Jainism, the emphasis is not on asking for forgiveness in a temple or from a guru, but directly from the person who was hurt.<br><strong>Diligence (Apramad):</strong> On the spiritual path, laziness is the biggest obstacle. To become diligent and strive continuously.<br><strong>Purity of Feelings:</strong> To hold four feelings in the mind: friendship, compassion, joy in others' success, and equanimity."
+                            },
+                            {
+                                q: "Q3: How does Paryushan Parva emphasize social responsibility and the spirit of service?",
+                                a: "Paryushan Parva goes beyond individual self-welfare and emphasizes social welfare. The eighth step talks about serving humans and all living beings with mind, speech, and action. The basis of service is not money, but heart and will. It explains that a person engrossed only in their own service does not pay their rent for their place in the world. Social cooperation is essential for physical, mental, and intellectual development. In the words of the poet, \"There is no outsider, all are of the home; just expand the horizon of your vision,\" which means to make one's sensitivity so vast that the whole world feels like a family."
+                            },
+                            {
+                                q: "Q4: What is the meaning of \"the search for the divine hidden in the body,\" and what does the Acharanga Sutra say about this?",
+                                a: "\"The search for the divine hidden in the body\" means that the divine is not somewhere outside, but resides within our own body, in our soul. We are unable to recognize it due to attachment, delusion, passions, and ignorance. In the Shri Acharanga Sutra, Lord Mahavir said, \"Just as a huge mango tree is hidden in the stone concealed within the heart of a mango, O human! The divine resides within your body, go and find it.\" Paryushan is the festival of becoming self-engaged and returning to one's natural state to attain this divine."
+                            },
+                            {
+                                q: "Q5: What is the relationship between Paryushan Parva and \"Ashtamangal\"?",
+                                a: "Along with the eight definitions of Paryushan Parva, \"Ashtamangal\" (the eight auspicious symbols) is also remembered. The eighth Ashtamangal is the \"mirror,\" which reflects light. It means that we should reflect not the faults or flaws of others in our lives, but their favors and virtues. In this way, Paryushan is the festival of moving from ignorance to right knowledge, from self-interest to the welfare of others, and from a conditioned state to one's natural state."
+                            },
+                            {
+                                q: "Q6: Why does Paryushan Parva come during the monsoon season, and what is the significance of this time?",
+                                a: "Paryushan comes during the monsoon season when nature is pure and calm. The land becomes clean, and impurities are washed away from the rivers. This time is considered very conducive for spiritual practice due to the purity of nature. In such a pure environment, a person can come out of the mirage of material desires and strive for purification of the mind, heart, and soul."
+                            },
+                            {
+                                q: "Q7: How does Paryushan Parva awaken a person from the stupor of material prosperity?",
+                                a: "In the modern era, man runs around in all directions and only starts thinking about life when he sees death. Paryushan Parva awakens man from this stupor of material prosperity. It explains that man is dejected and निराश because of his own desires, greed, and delusion. To turn this defeat into victory, Lord Mahavir showed the path of self-control, non-violence, and friendship. Paryushan is not a festival of gain or enjoyment, but a festival of renunciation and substance for the welfare of all."
+                            },
+                            {
+                                q: "Q8: How does Paryushan Parva nourish the mind and lead a person to their inner flame of consciousness?",
+                                a: "Worldly festivals nourish the body, while Paryushan Parva nourishes the human mind. Through virtues like penance, chanting, friendship, and forgiveness, a person reaches their inner flame of consciousness. Paryushan provides guidance to get free from the delusion, passions, attachment, and ignorance in which the soul has been living for eternity. It teaches a person to become self-absorbed, self-engaged, and self-loving, so that they can recognize their true form."
+                            }
+                        ]
+                    }
+                ],
+                footer: {
+                    name: "Manish V. Shah",
+                    contact: "WhatsApp: 94299 26447 (Vadodara)"
+                }
+            }
+        };
+
+        // --- Function to render content ---
+        function renderContent(lang) {
+            const data = content[lang];
+            const contentArea = document.getElementById('content-area');
+            
+            // Apply language-specific font class
+            contentArea.className = data.langClass;
+            
+            let html = `
+                <div class="content-card text-center">
+                    <h1 class="text-3xl md:text-4xl font-bold text-orange-600 mb-2">${data.title}</h1>
+                    <h2 class="text-2xl md:text-3xl text-amber-700 mb-4">${data.subtitle}</h2>
+                    <p class="text-lg text-gray-600 italic mb-4">${data.author}</p>
+                    <hr class="my-4 border-t-2 border-orange-200">
+                    <p class="text-lg font-semibold text-teal-700">${data.intro}</p>
+                </div>
+            `;
+
+            data.sections.forEach(section => {
+                html += `<div class="content-card">`;
+                html += `<h3 class="text-2xl font-bold text-indigo-700 mb-4">${section.title}</h3>`;
+                if (section.content) {
+                    html += `<p class="text-base md:text-lg leading-relaxed">${section.content}</p>`;
+                }
+                if (section.steps) {
+                    html += `<ul class="list-none space-y-4 mt-4">`;
+                    section.steps.forEach(step => {
+                        html += `<li class="text-base md:text-lg leading-relaxed p-4 bg-gray-50 rounded-lg border border-gray-200">${step}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+                if (section.faqs) {
+                    html += `<div class="space-y-4 mt-4">`;
+                    section.faqs.forEach(faq => {
+                        html += `<div class="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                                    <p class="font-bold text-emerald-800 mb-2">${faq.q}</p>
+                                    <p class="text-base md:text-lg leading-relaxed text-emerald-900">${faq.a}</p>
+                                 </div>`;
+                    });
+                    html += `</div>`;
+                }
+                html += `</div>`;
+            });
+
+            contentArea.innerHTML = html;
+
+            // Update footer
+            document.getElementById('footer-text').innerText = data.footer.name;
+            document.getElementById('footer-contact').innerText = data.footer.contact;
+        }
+
+        // --- Function to change language ---
+        function changeLanguage(lang) {
+            renderContent(lang);
+            
+            // Update active button style
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${lang}`).classList.add('active');
+        }
+
+        // --- Initial Load ---
+        window.onload = function() {
+            changeLanguage('gu'); // Load Gujarati by default
+        };
+    </script>
+</body>
+</html>

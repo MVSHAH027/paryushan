@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>પર્વાધિરાજ પર્યુષણ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base font settings */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+        /* Language-specific font classes */
+        .lang-gu { font-family: 'Noto Sans Gujarati', sans-serif; }
+        .lang-hi { font-family: 'Noto Sans Devanagari', sans-serif; }
+        .lang-en { font-family: 'Inter', sans-serif; }
+
+        /* Custom card styling for a soft, elevated look */
+        .content-card {
+            background-color: white;
+            border-radius: 1rem; /* 16px */
+            padding: 1.5rem; /* 24px */
+            margin-bottom: 1.5rem; /* 24px */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #f3f4f6; /* gray-100 */
+        }
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Styling for language buttons */
+        .lang-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .lang-btn.active {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --tw-ring-color: #fbbf24; /* amber-300 */
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+            ring-width: 3px;
+            ring-offset-width: 2px;
+            ring-color: var(--tw-ring-color);
+            ring-offset-color: #f5f5f5; /* neutral-100 */
+        }
+        
+        /* Styling for links within cards */
+        .card-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            background-image: linear-gradient(to right, #2dd4bf, #38bdf8); /* teal-400 to sky-400 */
+            color: white;
+        }
+        .card-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-neutral-100 text-gray-800">
+
+    <div class="container mx-auto max-w-3xl p-4">
+
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 id="header-title" class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500 mb-2"></h1>
+            <p id="header-subtitle" class="text-lg text-gray-600 font-medium"></p>
+        </header>
+
+        <!-- Language Selection -->
+        <div class="flex justify-center space-x-3 sm:space-x-4 p-4 sticky top-4 z-50 mb-8 bg-white/80 backdrop-blur-sm rounded-full shadow-md">
+            <button id="btn-gu" class="lang-btn active bg-orange-500 text-white font-bold py-2 px-5 rounded-full" onclick="changeLanguage('gu')">ગુજરાતી</button>
+            <button id="btn-hi" class="lang-btn bg-sky-500 text-white font-bold py-2 px-5 rounded-full" onclick="changeLanguage('hi')">हिन्दी</button>
+            <button id="btn-en" class="lang-btn bg-emerald-500 text-white font-bold py-2 px-5 rounded-full" onclick="changeLanguage('en')">English</button>
+        </div>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Content will be dynamically populated here -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 mt-8 border-t border-gray-200">
+            <p id="footer-name" class="font-semibold text-lg text-gray-700"></p>
+            <p id="footer-contact" class="text-gray-600"></p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- CONTENT DATA OBJECT ---
+        const content = {
+            gu: {
+                pageTitle: "પર્વાધિરાજ પર્યુષણ",
+                headerTitle: "પર્વાધિરાજ પર્યુષણ",
+                headerSubtitle: "કાયામાં છુપાયેલા પરમાત્માની શોધ, અને આત્મશુદ્ધિનો માર્ગ",
+                cards: [
+                    {
+                        type: 'video',
+                        title: "પરમાત્માની શોધ અને આત્મશુદ્ધિ",
+                        description: "પર્યુષણના ગહન અર્થને સમજાવતો વિડિઓ. કાયામાં છુપાયેલા પરમાત્માની શોધ અને આત્મશુદ્ધિના માર્ગ પર એક પ્રવચન.",
+                        linkText: "વિડિઓ જુઓ (ગુજરાતી)",
+                        url: "https://youtu.be/vjWfCewQq3o"
+                    },
+                    {
+                        type: 'video',
+                        title: "The Search for the Divine Within",
+                        description: "An English discourse on the eight profound steps of Parvadhiraj Paryushan, guiding the search for the divine within.",
+                        linkText: "Watch Video (English)",
+                        url: "https://youtu.be/E5UTqubeSZQ"
+                    },
+                    {
+                        type: 'link',
+                        title: "જાણ્યું છતાં અજાણ્યું: વિસ્તૃત લેખ",
+                        description: "પર્વાધિરાજ પર્યુષણના આઠ સોપાનોનું ઊંડાણપૂર્વક વિવરણ અને આત્મ-સાક્ષાત્કારના માર્ગ પર સંપૂર્ણ માર્ગદર્શન.",
+                        linkText: "વધુ વાંચો",
+                        url: "./info.html"
+                    },
+                    {
+                        type: 'link',
+                        title: "આઠ સોપાન: એક દ્રશ્ય પ્રસ્તુતિ",
+                        description: "પર્યુષણના આઠ પવિત્ર સોપાનોને સરળતાથી સમજવા માટે એક સુંદર અને માહિતીપ્રદ દ્રશ્ય પ્રસ્તુતિ (ઇન્ફોગ્રાફિક્સ).",
+                        linkText: "ઇન્ફોગ્રાફિક્સ જુઓ",
+                        url: "./infographics.html"
+                    },
+                    {
+                        type: 'link',
+                        title: "જ્ઞાન ચકાસણી: ઇન્ટરેક્ટિવ ક્વિઝ",
+                        description: "તમે પર્યુષણના સિદ્ધાંતોને કેટલું સમજ્યા? આ ઇન્ટરેક્ટિવ ક્વિઝ દ્વારા તમારા જ્ઞાનને ચકાસો અને તેને વ્યવહારમાં ઉતારો.",
+                        linkText: "ક્વિઝ રમો",
+                        url: "./quiz.html"
+                    }
+                ],
+                footerName: "મનીષ વી. શાહ",
+                footerContact: "વોટ્સએપ: 94299 26447 (વડોદરા)"
+            },
+            hi: {
+                pageTitle: "पर्वाधिराज पर्युषण",
+                headerTitle: "पर्वाधिराज पर्युषण",
+                headerSubtitle: "काया में छिपे परमात्मा की खोज, और आत्मशुद्धि का मार्ग",
+                cards: [
+                    {
+                        type: 'video',
+                        title: "परमात्मा की खोज और आत्मशुद्धि",
+                        description: "पर्युषण के गहन अर्थ को समझाने वाला वीडियो। काया में छिपे परमात्मा की खोज और आत्मशुद्धि के मार्ग पर एक प्रवचन।",
+                        linkText: "वीडियो देखें (गुजराती)",
+                        url: "https://youtu.be/vjWfCewQq3o"
+                    },
+                    {
+                        type: 'video',
+                        title: "The Search for the Divine Within",
+                        description: "An English discourse on the eight profound steps of Parvadhiraj Paryushan, guiding the search for the divine within.",
+                        linkText: "Watch Video (English)",
+                        url: "https://youtu.be/E5UTqubeSZQ"
+                    },
+                    {
+                        type: 'link',
+                        title: "जाना हुआ फिर भी अनजाना: विस्तृत लेख",
+                        description: "पर्वाधिराज पर्युषण के आठ सोपानों का गहन विवरण और आत्म-साक्षात्कार के मार्ग पर पूर्ण मार्गदर्शन।",
+                        linkText: "और पढ़ें",
+                        url: "./info.html"
+                    },
+                    {
+                        type: 'link',
+                        title: "आठ सोपान: एक दृश्य प्रस्तुति",
+                        description: "पर्युषण के आठ पवित्र सोपानों को आसानी से समझने के लिए एक सुंदर और जानकारीपूर्ण दृश्य प्रस्तुति (इन्फोग्राफिक्स)।",
+                        linkText: "इन्फोग्राफिक्स देखें",
+                        url: "./infographics.html"
+                    },
+                    {
+                        type: 'link',
+                        title: "ज्ञान परीक्षण: इंटरैक्टिव प्रश्नोत्तरी",
+                        description: "आपने पर्युषण के सिद्धांतों को कितना समझा? इस इंटरैक्टिव प्रश्नोत्तरी के माध्यम से अपने ज्ञान का परीक्षण करें और उसे व्यवहार में लाएं।",
+                        linkText: "प्रश्नोत्तरी खेलें",
+                        url: "./quiz.html"
+                    }
+                ],
+                footerName: "मनीष वी. शाह",
+                footerContact: "व्हाट्सएप: 94299 26447 (वडोदरा)"
+            },
+            en: {
+                pageTitle: "Parvadhiraj Paryushan",
+                headerTitle: "Parvadhiraj Paryushan",
+                headerSubtitle: "The Search for the Divine Within, and the Path of Self-Purification",
+                cards: [
+                    {
+                        type: 'video',
+                        title: "The Search for the Soul & Self-Purification",
+                        description: "A video explaining the profound meaning of Paryushan. A discourse on the search for the divine hidden in the body and the path to self-purification.",
+                        linkText: "Watch Video (Gujarati)",
+                        url: "https://youtu.be/vjWfCewQq3o"
+                    },
+                    {
+                        type: 'video',
+                        title: "The Search for the Divine Within",
+                        description: "An English discourse on the eight profound steps of Parvadhiraj Paryushan, guiding the search for the divine within.",
+                        linkText: "Watch Video (English)",
+                        url: "https://youtu.be/E5UTqubeSZQ"
+                    },
+                    {
+                        type: 'link',
+                        title: "Known Yet Unknown: Detailed Article",
+                        description: "An in-depth explanation of the eight steps of Parvadhiraj Paryushan and complete guidance on the path of self-realization.",
+                        linkText: "Read More",
+                        url: "./info.html"
+                    },
+                    {
+                        type: 'link',
+                        title: "The Eight Steps: A Visual Presentation",
+                        description: "A beautiful and informative visual presentation (infographics) to easily understand the eight sacred steps of Paryushan.",
+                        linkText: "View Infographics",
+                        url: "./infographics.html"
+                    },
+                    {
+                        type: 'link',
+                        title: "Knowledge Check: Interactive Quiz",
+                        description: "How well do you understand the principles of Paryushan? Test your knowledge and learn how to apply it in practice with this interactive quiz.",
+                        linkText: "Take the Quiz",
+                        url: "./quiz.html"
+                    }
+                ],
+                footerName: "Manish V. Shah",
+                footerContact: "WhatsApp: 94299 26447 (Vadodara)"
+            }
+        };
+
+        // --- RENDER FUNCTION ---
+        function renderContent(lang) {
+            const data = content[lang];
+            const mainContent = document.getElementById('main-content');
+
+            // Set page and header text
+            document.title = data.pageTitle;
+            document.documentElement.lang = lang;
+            
+            const headerTitle = document.getElementById('header-title');
+            headerTitle.textContent = data.headerTitle;
+            headerTitle.className = `text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500 mb-2 lang-${lang}`;
+            
+            const headerSubtitle = document.getElementById('header-subtitle');
+            headerSubtitle.textContent = data.headerSubtitle;
+            headerSubtitle.className = `text-lg text-gray-600 font-medium lang-${lang}`;
+
+            // Clear previous content
+            mainContent.innerHTML = '';
+
+            // Generate and append cards
+            data.cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'content-card';
+                cardElement.innerHTML = `
+                    <h2 class="text-2xl font-bold text-teal-600 mb-3 lang-${lang}">${card.title}</h2>
+                    <p class="text-gray-700 leading-relaxed mb-6 lang-${lang}">${card.description}</p>
+                    <a href="${card.url}" target="_blank" rel="noopener noreferrer" class="card-link lang-${lang}">
+                        ${card.linkText}
+                    </a>
+                `;
+                mainContent.appendChild(cardElement);
+            });
+
+            // Set footer text
+            document.getElementById('footer-name').textContent = data.footerName;
+            document.getElementById('footer-name').className = `font-semibold text-lg text-gray-700 lang-${lang}`;
+            document.getElementById('footer-contact').textContent = data.footerContact;
+            document.getElementById('footer-contact').className = `text-gray-600 lang-${lang}`;
+        }
+
+        // --- LANGUAGE CHANGE HANDLER ---
+        function changeLanguage(lang) {
+            renderContent(lang);
+            
+            // Update active button style
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${lang}`).classList.add('active');
+        }
+
+        // --- INITIAL LOAD ---
+        window.onload = function() {
+            // Load Gujarati by default
+            changeLanguage('gu');
+        };
+    </script>
+</body>
+</html>
